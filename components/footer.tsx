@@ -2,9 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {
   FaFacebookF,
-  FaLinkedinIn,
-  FaYoutube,
-  FaXTwitter,
+  FaYelp,
+  FaGoogle,
+  FaInstagram,
   FaPhone,
   FaLocationDot,
   FaEnvelope,
@@ -27,10 +27,10 @@ const services = [
 ]
 
 const socials = [
-  { label: 'Facebook', href: '#', icon: FaFacebookF, active: true },
-  { label: 'LinkedIn', href: '#', icon: FaLinkedinIn, active: false },
-  { label: 'YouTube', href: '#', icon: FaYoutube, active: false },
-  { label: 'X', href: '#', icon: FaXTwitter, active: false },
+  { label: 'Yelp', href: '#', icon: FaYelp },
+  { label: 'Google Reviews', href: '#', icon: FaGoogle },
+  { label: 'Instagram', href: '#', icon: FaInstagram },
+  { label: 'Facebook', href: '#', icon: FaFacebookF },
 ]
 
 export default function Footer() {
@@ -65,16 +65,12 @@ export default function Footer() {
             </p>
 
             <div className="flex items-center gap-3">
-              {socials.map(({ label, href, icon: Icon, active }) => (
+              {socials.map(({ label, href, icon: Icon }) => (
                 <a
                   key={label}
                   href={href}
                   aria-label={label}
-                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
-                    active
-                      ? 'bg-[#1877F2] text-white hover:bg-[#1877F2]/85'
-                      : 'bg-white text-ink-secondary border border-gray-200 hover:border-ink hover:text-ink'
-                  }`}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-ink-secondary transition-all duration-200 hover:border-ink hover:text-ink"
                 >
                   <Icon size={15} />
                 </a>

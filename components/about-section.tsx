@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { HiArrowRight, HiCheck } from 'react-icons/hi2'
+import SanDiegoMapPoster from '@/components/san-diego-map-poster'
 
 const features = [
   'Reliable Comfort You Can Count On Year-Round',
@@ -30,24 +31,18 @@ export default function AboutSection() {
               </div>
             </div>
 
-            {/* Right photo — equal height on mobile, spans both rows on desktop */}
+            {/* Map poster: equal height on mobile, spans both rows on desktop */}
             <div className="relative aspect-[3/4] overflow-hidden rounded-[0.75rem_0.75rem_2.75rem_0.75rem] lg:row-span-2 lg:aspect-auto lg:min-h-[26rem] lg:rounded-[1rem_1rem_5.5rem_1rem]">
-              <Image
-                src="/images/hero-bg.png"
-                alt="HVAC technician working on an air conditioning system"
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 45vw, 250px"
-              />
+              <SanDiegoMapPoster />
             </div>
 
-            {/* Experience badge — full width on mobile, under left photo on desktop */}
-            <div className="col-span-2 rounded-xl bg-ink px-5 py-4 text-white sm:px-6 sm:py-5 lg:col-span-1">
+            {/* Cuban-owned badge: full width on mobile, under left photo on desktop */}
+            <div className="col-span-2 rounded-xl bg-ink px-5 py-4 text-center text-white sm:px-6 sm:py-5 lg:col-span-1">
               <p className="font-heading text-3xl font-bold leading-none sm:text-4xl">
-                10+
+                Cuban
               </p>
               <p className="mt-1 text-xs font-medium leading-snug text-white/80 sm:text-sm">
-                Years Of Experience
+                Owned &amp; Operated
               </p>
             </div>
           </div>
@@ -77,9 +72,9 @@ export default function AboutSection() {
           </h2>
 
           <p className="mb-8 max-w-lg text-base leading-relaxed text-ink-muted">
-            From seasonal tune-ups to full system replacements, we treat each home as our own,
-            providing personalized heating and cooling solutions tailored to your needs. Trust us
-            to protect what matters.
+            Named after Havana, the capital and largest city of Cuba, we bring that same spirit of
+            hospitality and hard work to every home we serve. Just as Havana thrives in the heat,
+            we keep your space cool, comfortable, and cared for year-round.
           </p>
 
           <ul className="mb-10 flex flex-col gap-4">

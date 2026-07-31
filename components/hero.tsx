@@ -4,6 +4,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { HiArrowRight, HiCheckCircle, HiStar } from 'react-icons/hi2'
 import { useState } from 'react'
+import AnimatedSelect from '@/components/ui/animated-select'
+import FormSubmitSlot from '@/components/ui/form-submit-slot'
+
+const serviceOptions = [
+  { value: 'ac-repair', label: 'AC Repair' },
+  { value: 'heating', label: 'Heating Repair' },
+  { value: 'installation', label: 'New Installation' },
+  { value: 'maintenance', label: 'Maintenance / Tune-Up' },
+  { value: 'emergency', label: 'Emergency Service' },
+  { value: 'other', label: 'Other' },
+]
 
 export default function Hero() {
   const [formData, setFormData] = useState({
@@ -13,9 +24,26 @@ export default function Hero() {
     description: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+
+    const missing: string[] = []
+    if (!formData.fullName.trim()) missing.push('full name')
+    if (!formData.phone.trim()) missing.push('phone number')
+    if (!formData.serviceType) missing.push('service type')
+
+    if (missing.length > 0) {
+      setErrorMessage(
+        missing.length === 1
+          ? `Add your ${missing[0]} to continue`
+          : 'Please complete all required fields'
+      )
+      return
+    }
+
+    setErrorMessage(null)
     setSubmitted(true)
     setTimeout(() => setSubmitted(false), 4000)
     setFormData({ fullName: '', phone: '', serviceType: '', description: '' })
@@ -29,7 +57,7 @@ export default function Hero() {
       id="home"
       className="relative min-h-screen flex items-center overflow-hidden bg-white"
     >
-      {/* Background image — full bleed */}
+      {/* Background image: full bleed */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/hero-bg-mobile.png"
@@ -51,7 +79,7 @@ export default function Hero() {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10 pt-36 pb-24 sm:pt-40 lg:pt-44 lg:pb-28">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
 
-          {/* ── LEFT COLUMN ── */}
+          {/* LEFT COLUMN */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-4 mb-6">
               <div className="flex -space-x-2.5">
@@ -108,9 +136,9 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* ── RIGHT COLUMN — Request Form Card ── */}
+          {/* RIGHT COLUMN: Request Form Card */}
           <div className="w-full lg:w-[400px] flex-shrink-0">
-            <div className="bg-white rounded-2xl p-7 shadow-2xl border border-black/5">
+            <div className="relative z-20 overflow-visible bg-white rounded-2xl p-7 shadow-2xl border border-black/5">
               <h2 className="font-heading text-ink font-bold text-lg text-center mb-1.5">
                 Request Fast HVAC Service
               </h2>
@@ -127,13 +155,12 @@ export default function Hero() {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3">
                   <input
                     type="text"
                     placeholder="Full Name"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    required
                     className={fieldClass}
                   />
                   <input
@@ -141,27 +168,15 @@ export default function Hero() {
                     placeholder="Phone Number"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    required
                     className={fieldClass}
                   />
-                  <select
+                  <AnimatedSelect
+                    options={serviceOptions}
                     value={formData.serviceType}
-                    onChange={(e) => setFormData({ ...formData, serviceType: e.target.value })}
-                    required
-                    className={`${fieldClass} appearance-none ${
-                      formData.serviceType ? 'text-ink' : 'text-ink-faint'
-                    }`}
-                  >
-                    <option value="" disabled>
-                      Service Type
-                    </option>
-                    <option value="ac-repair">AC Repair</option>
-                    <option value="heating">Heating Repair</option>
-                    <option value="installation">New Installation</option>
-                    <option value="maintenance">Maintenance / Tune-Up</option>
-                    <option value="emergency">Emergency Service</option>
-                    <option value="other">Other</option>
-                  </select>
+                    onChange={(serviceType) => setFormData({ ...formData, serviceType })}
+                    placeholder="Service Type"
+                    aria-label="Service Type"
+                  />
                   <textarea
                     placeholder="Short Description"
                     rows={3}
@@ -169,12 +184,12 @@ export default function Hero() {
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     className={`${fieldClass} resize-none`}
                   />
-                  <button
-                    type="submit"
-                    className="w-full bg-ink hover:bg-ink/90 text-white font-light py-3.5 rounded-lg transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 text-sm mt-1"
-                  >
-                    Submit Request
-                  </button>
+                  <FormSubmitSlot
+                    label="Submit Request"
+                    error={errorMessage}
+                    onErrorDismiss={() => setErrorMessage(null)}
+                    className="mt-1"
+                  />
                 </form>
               )}
             </div>

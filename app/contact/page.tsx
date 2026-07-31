@@ -1,5 +1,9 @@
-import PagePlaceholder from '@/components/page-placeholder'
+import ContactSection from '@/components/contact-section'
 
 export default function ContactPage() {
-  return <PagePlaceholder title="Contact Us" />
+  return (
+    <main>
+      <ContactSection />
+    </main>
+  )
 }
