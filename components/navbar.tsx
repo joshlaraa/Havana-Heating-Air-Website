@@ -19,60 +19,18 @@ const linkClassName =
 
 export default function Navbar() {
   const pathname = usePathname()
-  const [pastHero, setPastHero] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  const isHome = pathname === '/'
-  const solid = !isHome || pastHero
 
   useEffect(() => {
     setMobileMenuOpen(false)
   }, [pathname])
 
-  useEffect(() => {
-    if (!isHome) {
-      setPastHero(true)
-      return
-    }
-
-    let ticking = false
-
-    const update = () => {
-      const hero = document.getElementById('home')
-      if (!hero) {
-        setPastHero(window.scrollY > 50)
-        return
-      }
-      // Solid once the hero has scrolled out from under the floating navbar
-      setPastHero(hero.getBoundingClientRect().bottom <= 96)
-    }
-
-    const handleScroll = () => {
-      if (ticking) return
-      ticking = true
-      requestAnimationFrame(() => {
-        update()
-        ticking = false
-      })
-    }
-
-    update()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleScroll)
-    }
-  }, [isHome, pathname])
-
   return (
     <nav className="fixed top-6 left-1/2 z-50 w-11/12 max-w-6xl -translate-x-1/2">
       <div
-        className={`rounded-2xl px-6 transition-all duration-300 md:px-8 ${
-          solid
-            ? 'bg-black/85 shadow-2xl backdrop-blur-md'
-            : 'bg-white/20 shadow-lg backdrop-blur-md'
-        } ${mobileMenuOpen ? 'py-6' : 'py-4'}`}
+        className={`rounded-2xl bg-black/85 px-6 shadow-2xl backdrop-blur-md md:px-8 ${
+          mobileMenuOpen ? 'py-6' : 'py-4'
+        }`}
       >
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 cursor-pointer">
