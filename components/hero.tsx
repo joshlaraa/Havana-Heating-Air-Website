@@ -1,11 +1,12 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { HiArrowRight, HiCheckCircle, HiStar } from 'react-icons/hi2'
-import { useState } from 'react'
 import AnimatedSelect from '@/components/ui/animated-select'
 import FormSubmitSlot from '@/components/ui/form-submit-slot'
+import { cn } from '@/lib/utils'
 
 const serviceOptions = [
   { value: 'ac-repair', label: 'AC Repair' },
@@ -50,7 +51,7 @@ export default function Hero() {
   }
 
   const fieldClass =
-    'w-full bg-white border border-gray-200 text-ink placeholder:text-ink-faint rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-ink/30 focus:ring-2 focus:ring-ink/5 transition-colors'
+    'w-full bg-white border border-gray-200 text-ink placeholder:text-ink-faint rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-ink/30 focus:ring-2 focus:ring-ink/5 transition-[border-color,box-shadow] duration-200'
 
   return (
     <section
@@ -146,22 +147,23 @@ export default function Hero() {
                 We&apos;ll get back to you shortly.
               </p>
 
-              {submitted ? (
-                <div className="py-10 text-center">
-                  <HiCheckCircle size={48} className="text-emerald-500 mx-auto mb-3" />
-                  <p className="text-ink font-semibold text-base">Request Sent!</p>
-                  <p className="text-ink-muted text-sm mt-1">
-                    We&apos;ll contact you shortly.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3">
+              <div className="relative">
+                <form
+                  onSubmit={handleSubmit}
+                  noValidate
+                  className={cn(
+                    'flex flex-col gap-3 transition-opacity duration-200 ease-out',
+                    submitted ? 'pointer-events-none opacity-0' : 'opacity-100'
+                  )}
+                  aria-hidden={submitted}
+                >
                   <input
                     type="text"
                     placeholder="Full Name"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     className={fieldClass}
+                    autoComplete="name"
                   />
                   <input
                     type="tel"
@@ -169,6 +171,7 @@ export default function Hero() {
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className={fieldClass}
+                    autoComplete="tel"
                   />
                   <AnimatedSelect
                     options={serviceOptions}
@@ -188,10 +191,27 @@ export default function Hero() {
                     label="Submit Request"
                     error={errorMessage}
                     onErrorDismiss={() => setErrorMessage(null)}
-                    className="mt-1"
+                    className={cn('mt-1', submitted && '[&_*]:transition-none')}
                   />
                 </form>
-              )}
+
+                <div
+                  aria-live="polite"
+                  aria-hidden={!submitted}
+                  className={cn(
+                    'absolute inset-0 flex flex-col items-center justify-center bg-white text-center transition-opacity duration-200 ease-out',
+                    submitted
+                      ? 'pointer-events-auto opacity-100'
+                      : 'pointer-events-none opacity-0'
+                  )}
+                >
+                  <HiCheckCircle size={48} className="mb-3 text-emerald-500" />
+                  <p className="text-base font-semibold text-ink">Request Sent!</p>
+                  <p className="mt-1 text-sm text-ink-muted">
+                    We&apos;ll contact you shortly.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 

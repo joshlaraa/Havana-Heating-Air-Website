@@ -13,6 +13,7 @@ import {
 import { HiCheckCircle } from 'react-icons/hi2'
 import AnimatedSelect from '@/components/ui/animated-select'
 import FormSubmitSlot from '@/components/ui/form-submit-slot'
+import { cn } from '@/lib/utils'
 
 const socials = [
   { label: 'Yelp', href: '#', icon: FaYelp },
@@ -32,7 +33,7 @@ const subjectOptions = [
 ]
 
 const fieldClass =
-  'w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-faint transition-colors focus:border-ink/30 focus:outline-none focus:ring-2 focus:ring-ink/5'
+  'w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-faint transition-[border-color,box-shadow] duration-200 focus:border-ink/30 focus:outline-none focus:ring-2 focus:ring-ink/5'
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -147,16 +148,16 @@ export default function ContactSection() {
 
         {/* Right: form */}
         <div className="relative z-10 overflow-visible rounded-b-3xl bg-brand-light px-8 py-10 sm:px-10 sm:py-12 lg:rounded-r-3xl lg:rounded-bl-none lg:px-12 lg:py-14">
-          {submitted ? (
-            <div className="flex min-h-[28rem] flex-col items-center justify-center text-center">
-              <HiCheckCircle size={48} className="mx-auto mb-3 text-emerald-500" />
-              <p className="text-base font-semibold text-ink">Message Sent!</p>
-              <p className="mt-1 text-sm text-ink-muted">
-                We&apos;ll get back to you shortly.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-8">
+          <div className="relative">
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+              className={cn(
+                'flex flex-col gap-8 transition-opacity duration-200 ease-out',
+                submitted ? 'pointer-events-none opacity-0' : 'opacity-100'
+              )}
+              aria-hidden={submitted}
+            >
               <div>
                 <h2 className="font-heading text-lg font-bold text-ink">Personal information</h2>
                 <p className="mt-1 text-sm text-ink-muted">
@@ -229,9 +230,27 @@ export default function ContactSection() {
                 label="Send Message"
                 error={errorMessage}
                 onErrorDismiss={() => setErrorMessage(null)}
+                className={submitted ? '[&_*]:transition-none' : undefined}
               />
             </form>
-          )}
+
+            <div
+              aria-live="polite"
+              aria-hidden={!submitted}
+              className={cn(
+                'absolute inset-0 flex flex-col items-center justify-center bg-brand-light text-center transition-opacity duration-200 ease-out',
+                submitted
+                  ? 'pointer-events-auto opacity-100'
+                  : 'pointer-events-none opacity-0'
+              )}
+            >
+              <HiCheckCircle size={48} className="mb-3 text-emerald-500" />
+              <p className="text-base font-semibold text-ink">Message Sent!</p>
+              <p className="mt-1 text-sm text-ink-muted">
+                We&apos;ll get back to you shortly.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
