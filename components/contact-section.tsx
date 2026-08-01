@@ -14,6 +14,7 @@ import {
 import { HiCheckCircle } from 'react-icons/hi2'
 import AnimatedSelect from '@/components/ui/animated-select'
 import FormSubmitSlot from '@/components/ui/form-submit-slot'
+import { services } from '@/lib/services'
 import { cn } from '@/lib/utils'
 
 const socials = [
@@ -34,6 +35,7 @@ const subjectOptions = [
 ]
 
 const subjectValues = new Set(subjectOptions.map((option) => option.value))
+const serviceLabels = new Set(services.map((service) => service.label))
 
 const fieldClass = 'field-input'
 
@@ -46,6 +48,7 @@ export default function ContactSection() {
     phone: '',
     subject: '',
     message: '',
+    company: '',
   })
   const [submitted, setSubmitted] = useState(false)
   const [pending, setPending] = useState(false)
@@ -56,8 +59,12 @@ export default function ContactSection() {
     const subjectParam = searchParams.get('subject') ?? ''
     const serviceParam = searchParams.get('service') ?? ''
     const nextSubject = subjectValues.has(subjectParam) ? subjectParam : ''
-    const nextMessage = serviceParam
-      ? `I'm interested in a free estimate for ${serviceParam}.`
+    const nextService =
+      serviceLabels.has(serviceParam) && serviceParam.length <= 80
+        ? serviceParam
+        : ''
+    const nextMessage = nextService
+      ? `I'm interested in a free estimate for ${nextService}.`
       : ''
 
     if (!nextSubject && !nextMessage) return
@@ -105,6 +112,7 @@ export default function ContactSection() {
           phone: formData.phone.trim(),
           subject: formData.subject,
           message: formData.message.trim(),
+          company: formData.company,
         }),
       })
 
@@ -126,6 +134,7 @@ export default function ContactSection() {
         phone: '',
         subject: '',
         message: '',
+        company: '',
       })
       // Remount so Chrome drops autofill styling on the cleared fields
       setFormKey((k) => k + 1)
@@ -229,6 +238,7 @@ export default function ContactSection() {
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                     className={fieldClass}
                     autoComplete="given-name"
+                    maxLength={80}
                   />
                   <input
                     type="text"
@@ -237,6 +247,7 @@ export default function ContactSection() {
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     className={fieldClass}
                     autoComplete="family-name"
+                    maxLength={80}
                   />
                   <input
                     type="email"
@@ -245,6 +256,7 @@ export default function ContactSection() {
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className={fieldClass}
                     autoComplete="email"
+                    maxLength={120}
                   />
                   <input
                     type="tel"
@@ -253,6 +265,19 @@ export default function ContactSection() {
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className={fieldClass}
                     autoComplete="tel"
+                    maxLength={30}
+                  />
+                  <input
+                    type="text"
+                    name="company"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={formData.company}
+                    onChange={(e) =>
+                      setFormData({ ...formData, company: e.target.value })
+                    }
+                    className="absolute -left-[9999px] h-0 w-0 opacity-0"
+                    aria-hidden="true"
                   />
                 </div>
               </div>
@@ -281,6 +306,7 @@ export default function ContactSection() {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className={`${fieldClass} mt-5 resize-none`}
+                  maxLength={2000}
                 />
               </div>
 

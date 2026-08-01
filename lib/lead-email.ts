@@ -6,10 +6,15 @@ const BRAND = {
   ink: '#111827',
   inkSecondary: '#374151',
   inkMuted: '#6b7280',
+  inkFaint: '#9ca3af',
   light: '#f5f5f5',
   border: '#e5e7eb',
   white: '#ffffff',
 } as const
+
+/** Brand fonts when the client allows web fonts; Arial otherwise. */
+const FONT_SANS = 'Satoshi, Arial, Helvetica, sans-serif'
+const FONT_HEADING = 'Switzer, Satoshi, Arial, Helvetica, sans-serif'
 
 function escapeHtml(value: string) {
   return value
@@ -26,13 +31,6 @@ function telHref(phone: string) {
   return `tel:${digits || trimmed}`
 }
 
-function mailtoHref(email: string, name: string, topic: string) {
-  const subject = `Re: Your Havana Heating and Air inquiry`
-  const body = `Hi ${name},\n\nThanks for reaching out about ${topic}. `
-  const params = new URLSearchParams({ subject, body })
-  return `mailto:${email.trim()}?${params.toString()}`
-}
-
 function formatCount(value: number) {
   return new Intl.NumberFormat('en-US').format(value)
 }
@@ -41,10 +39,10 @@ function detailRow(label: string, valueHtml: string, last = false) {
   const border = last ? '' : `border-bottom:1px solid ${BRAND.border};`
   return `
     <tr>
-      <td style="padding:14px 0;${border}width:128px;vertical-align:top;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.4;color:${BRAND.inkMuted};">
+      <td style="padding:14px 0;${border}width:128px;vertical-align:top;font-family:${FONT_SANS};font-size:13px;line-height:1.4;color:${BRAND.inkMuted};">
         ${escapeHtml(label)}
       </td>
-      <td style="padding:14px 0;${border}vertical-align:top;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:${BRAND.ink};font-weight:500;">
+      <td style="padding:14px 0;${border}vertical-align:top;font-family:${FONT_SANS};font-size:15px;line-height:1.5;color:${BRAND.inkSecondary};font-weight:500;">
         ${valueHtml}
       </td>
     </tr>
@@ -56,11 +54,12 @@ function textValue(value: string) {
 }
 
 function phoneValue(phone: string) {
-  return `<a href="${escapeHtml(telHref(phone))}" style="color:${BRAND.red};text-decoration:none;font-weight:700;">${escapeHtml(phone.trim())}</a>`
+  return `<a href="${escapeHtml(telHref(phone))}" style="color:${BRAND.inkSecondary};text-decoration:none;font-weight:700;">${escapeHtml(phone.trim())}</a>`
 }
 
-function emailValue(email: string, name: string, topic: string) {
-  return `<a href="${escapeHtml(mailtoHref(email, name, topic))}" style="color:${BRAND.red};text-decoration:none;font-weight:700;">${escapeHtml(email.trim())}</a>`
+function emailValue(email: string) {
+  const safe = email.trim()
+  return `<a href="mailto:${encodeURIComponent(safe)}" style="color:${BRAND.inkSecondary};text-decoration:none;font-weight:700;">${escapeHtml(safe)}</a>`
 }
 
 function leadContact(payload: LeadPayload) {
@@ -96,7 +95,7 @@ function leadDetails(payload: LeadPayload) {
 
   return [
     detailRow('Name', textValue(contact.name)),
-    detailRow('Email', emailValue(contact.email!, contact.name, contact.topic)),
+    detailRow('Email', emailValue(contact.email!)),
     detailRow('Phone', phoneValue(contact.phone)),
     detailRow('Subject', textValue(contact.topic)),
     detailRow('Message', textValue(payload.message.trim()), true),
@@ -105,40 +104,17 @@ function leadDetails(payload: LeadPayload) {
 
 function contactActions(payload: LeadPayload) {
   const contact = leadContact(payload)
-  const callButton = `
-    <a href="${escapeHtml(telHref(contact.phone))}"
-       style="display:inline-block;background:${BRAND.red};color:${BRAND.white};font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;text-decoration:none;padding:14px 22px;border-radius:999px;">
-      Call ${escapeHtml(contact.name.split(' ')[0] || 'customer')}
-    </a>
-  `
-
-  if (!contact.email) {
-    return `
-      <tr>
-        <td style="padding:0 32px 28px;" align="center">
-          ${callButton}
-          <p style="margin:14px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;color:${BRAND.inkMuted};">
-            Tap to call ${escapeHtml(contact.phone)}
-          </p>
-        </td>
-      </tr>
-    `
-  }
+  const firstName = contact.name.split(' ')[0] || 'customer'
 
   return `
     <tr>
-      <td style="padding:0 32px 28px;" align="center">
-        <div style="margin:0 0 10px;">
-          ${callButton}
-        </div>
-        <div>
-          <a href="${escapeHtml(mailtoHref(contact.email, contact.name, contact.topic))}"
-             style="display:inline-block;background:${BRAND.ink};color:${BRAND.white};font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;text-decoration:none;padding:14px 22px;border-radius:999px;">
-            Email customer
-          </a>
-        </div>
-        <p style="margin:14px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;color:${BRAND.inkMuted};">
-          Or reply to this email to message them directly.
+      <td style="padding:8px 32px 28px;" align="center">
+        <a href="${escapeHtml(telHref(contact.phone))}"
+           style="display:inline-block;background:${BRAND.red};color:${BRAND.white};font-family:${FONT_HEADING};font-size:15px;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:999px;letter-spacing:0.01em;">
+          Call ${escapeHtml(firstName)}
+        </a>
+        <p style="margin:14px 0 0;font-family:${FONT_SANS};font-size:13px;line-height:1.5;color:${BRAND.inkMuted};">
+          Tap to call ${escapeHtml(contact.phone)}
         </p>
       </td>
     </tr>
@@ -146,25 +122,32 @@ function contactActions(payload: LeadPayload) {
 }
 
 function analyticsSection(traffic: SiteTrafficSnapshot | null) {
-  if (!traffic) return ''
-
   const cell = (label: string, value: string) => `
-    <td width="50%" style="padding:10px 8px;text-align:center;vertical-align:top;">
-      <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:22px;line-height:1.2;font-weight:700;color:${BRAND.ink};">
+    <td width="50%" style="padding:12px 8px;text-align:center;vertical-align:top;">
+      <p style="margin:0;font-family:${FONT_HEADING};font-size:22px;line-height:1.2;font-weight:700;color:${BRAND.inkSecondary};">
         ${escapeHtml(value)}
       </p>
-      <p style="margin:6px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.4;color:${BRAND.inkMuted};">
+      <p style="margin:6px 0 0;font-family:${FONT_SANS};font-size:12px;line-height:1.4;color:${BRAND.inkMuted};">
         ${escapeHtml(label)}
       </p>
     </td>
   `
+
+  const viewsToday = traffic ? formatCount(traffic.pageviewsToday) : '—'
+  const visitorsToday = traffic ? formatCount(traffic.visitorsToday) : '—'
+  const views7d = traffic ? formatCount(traffic.pageviews7d) : '—'
+  const visitors7d = traffic ? formatCount(traffic.visitors7d) : '—'
+
+  const footnote = traffic
+    ? 'Live from Vercel Web Analytics'
+    : 'Enable Web Analytics in Vercel and set VERCEL_API_TOKEN to show live traffic'
 
   return `
     <tr>
       <td style="padding:0 32px 24px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BRAND.light};border-radius:16px;">
           <tr>
-            <td style="padding:18px 16px 6px;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;font-weight:700;color:${BRAND.red};">
+            <td style="padding:18px 16px 6px;font-family:${FONT_HEADING};font-size:12px;letter-spacing:0.06em;text-transform:uppercase;font-weight:700;color:${BRAND.inkMuted};">
               Site traffic snapshot
             </td>
           </tr>
@@ -172,14 +155,19 @@ function analyticsSection(traffic: SiteTrafficSnapshot | null) {
             <td style="padding:0 8px 8px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  ${cell('Views today', formatCount(traffic.pageviewsToday))}
-                  ${cell('Visitors today', formatCount(traffic.visitorsToday))}
+                  ${cell('Views today', viewsToday)}
+                  ${cell('Visitors today', visitorsToday)}
                 </tr>
                 <tr>
-                  ${cell('Views · last 7 days', formatCount(traffic.pageviews7d))}
-                  ${cell('Visitors · last 7 days', formatCount(traffic.visitors7d))}
+                  ${cell('Views · last 7 days', views7d)}
+                  ${cell('Visitors · last 7 days', visitors7d)}
                 </tr>
               </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 16px 16px;font-family:${FONT_SANS};font-size:11px;line-height:1.4;color:${BRAND.inkFaint};">
+              ${escapeHtml(footnote)}
             </td>
           </tr>
         </table>
@@ -207,7 +195,11 @@ export function buildLeadEmail(
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
   <title>${escapeHtml(title)}</title>
+  <!--[if !mso]><!-->
+  <link href="https://api.fontshare.com/v2/css?f[]=switzer@700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+  <!--<![endif]-->
 </head>
 <body style="margin:0;padding:0;background:${BRAND.light};">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${BRAND.light};padding:32px 16px;">
@@ -215,21 +207,21 @@ export function buildLeadEmail(
       <td align="center">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:${BRAND.white};border-radius:24px;overflow:hidden;">
           <tr>
-            <td style="background:${BRAND.ink};padding:28px 32px;">
-              <p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:${BRAND.red};font-weight:700;">
+            <td style="background:${BRAND.white};padding:28px 32px;border-bottom:1px solid ${BRAND.border};">
+              <p style="margin:0 0 10px;font-family:${FONT_HEADING};font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:${BRAND.inkMuted};font-weight:700;">
                 Havana Heating and Air
               </p>
-              <h1 style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:24px;line-height:1.25;color:${BRAND.white};font-weight:700;">
+              <h1 style="margin:0;font-family:${FONT_HEADING};font-size:24px;line-height:1.25;color:${BRAND.inkSecondary};font-weight:700;">
                 ${escapeHtml(title)}
               </h1>
-              <p style="margin:10px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.72);">
+              <p style="margin:10px 0 0;font-family:${FONT_SANS};font-size:14px;line-height:1.5;color:${BRAND.inkMuted};">
                 ${escapeHtml(sourceLabel)}
               </p>
             </td>
           </tr>
           <tr>
             <td style="padding:28px 32px 8px;">
-              <span style="display:inline-block;padding:6px 12px;border-radius:999px;background:${BRAND.light};font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:600;color:${BRAND.ink};">
+              <span style="display:inline-block;padding:6px 12px;border-radius:999px;background:${BRAND.light};font-family:${FONT_SANS};font-size:12px;font-weight:600;color:${BRAND.inkMuted};">
                 ${escapeHtml(accentLabel)}
               </span>
             </td>
@@ -244,7 +236,7 @@ export function buildLeadEmail(
           ${contactActions(payload)}
           ${analyticsSection(traffic)}
           <tr>
-            <td style="padding:0 32px 28px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.5;color:${BRAND.inkMuted};">
+            <td style="padding:0 32px 28px;font-family:${FONT_SANS};font-size:12px;line-height:1.5;color:${BRAND.inkFaint};">
               Havana Heating and Air · San Diego County · 909.235.0771
             </td>
           </tr>

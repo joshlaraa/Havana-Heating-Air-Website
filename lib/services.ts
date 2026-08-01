@@ -287,12 +287,12 @@ export const services: readonly Service[] = [
       'Better air at home with filtration upgrades, duct work, and humidity control. Less dust, fewer allergens, and air that actually feels fresh.',
     images: [
       {
-        src: '/images/about-hvac.png',
-        alt: 'Home comfort system supporting cleaner indoor air',
+        src: '/images/indoor-air-quality.png',
+        alt: 'Indoor air quality and filtration equipment for a healthier home',
       },
       {
-        src: '/images/hero-bg-mobile.png',
-        alt: 'Technician improving indoor air quality systems',
+        src: '/images/about-hvac.png',
+        alt: 'Home comfort system supporting cleaner indoor air',
       },
     ],
     detail: {

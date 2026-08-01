@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   description:
     'Havana Heating and Air offers HVAC installation, repair, and maintenance for San Diego County homes. Call 909.235.0771 for a free estimate.',
   keywords: 'HVAC, heating, air conditioning, AC repair, furnace installation, Havana Heating and Air',
-  generator: 'v0.app',
 }
 
 export const viewport: Viewport = {

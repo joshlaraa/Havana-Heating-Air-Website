@@ -3,9 +3,53 @@ import { track } from '@vercel/analytics/server'
 import { Resend } from 'resend'
 import { buildLeadEmail } from '@/lib/lead-email'
 import { parseLeadPayload } from '@/lib/lead-types'
+import { clientIp, rateLimit } from '@/lib/rate-limit'
 import { getSiteTrafficSnapshot } from '@/lib/site-analytics'
 
 export const runtime = 'nodejs'
+
+const MAX_BODY_BYTES = 12_000
+
+function allowedOrigins(): Set<string> {
+  const origins = new Set<string>()
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '')
+  if (siteUrl) origins.add(siteUrl)
+
+  const vercelUrl = process.env.VERCEL_URL
+  if (vercelUrl) origins.add(`https://${vercelUrl.replace(/^https?:\/\//, '')}`)
+
+  // Production + preview defaults for this project
+  origins.add('https://havana-heating-air-website.vercel.app')
+  origins.add('http://localhost:3000')
+  origins.add('http://127.0.0.1:3000')
+
+  return origins
+}
+
+function isAllowedRequest(request: Request): boolean {
+  const allowed = allowedOrigins()
+  const origin = request.headers.get('origin')
+  if (origin && allowed.has(origin)) return true
+
+  const referer = request.headers.get('referer')
+  if (referer) {
+    try {
+      const refOrigin = new URL(referer).origin
+      if (allowed.has(refOrigin)) return true
+    } catch {
+      return false
+    }
+  }
+
+  // Same-origin fetches from some browsers omit Origin; allow when both absent
+  // only in non-production local/dev. In production require Origin or Referer.
+  if (!origin && !referer && process.env.NODE_ENV !== 'production') {
+    return true
+  }
+
+  return false
+}
 
 export async function POST(request: Request) {
   const apiKey = process.env.RESEND_API_KEY
@@ -18,13 +62,39 @@ export async function POST(request: Request) {
     )
   }
 
+  if (!isAllowedRequest(request)) {
+    return NextResponse.json({ error: 'Invalid request.' }, { status: 403 })
+  }
+
+  const ip = clientIp(request)
+  const limited = rateLimit(`contact:${ip}`)
+  if (!limited.ok) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again shortly.' },
+      {
+        status: 429,
+        headers: { 'Retry-After': String(limited.retryAfterSec) },
+      }
+    )
+  }
+
+  const contentLength = Number(request.headers.get('content-length') || 0)
+  if (contentLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: 'Invalid request.' }, { status: 413 })
+  }
+
   let body: unknown
   try {
-    body = await request.json()
+    const raw = await request.text()
+    if (raw.length > MAX_BODY_BYTES) {
+      return NextResponse.json({ error: 'Invalid request.' }, { status: 413 })
+    }
+    body = JSON.parse(raw) as unknown
   } catch {
     return NextResponse.json({ error: 'Invalid request.' }, { status: 400 })
   }
 
+  // Honeypot trips look like validation failures to bots.
   const payload = parseLeadPayload(body)
   if (!payload) {
     return NextResponse.json(
@@ -33,6 +103,7 @@ export async function POST(request: Request) {
     )
   }
 
+  // Prefer sending the lead even if analytics is slow/unavailable.
   const traffic = await getSiteTrafficSnapshot()
   const email = buildLeadEmail(payload, traffic)
   const resend = new Resend(apiKey)

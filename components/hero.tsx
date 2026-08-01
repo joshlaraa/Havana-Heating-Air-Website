@@ -23,6 +23,7 @@ export default function Hero() {
     phone: '',
     serviceType: '',
     description: '',
+    company: '',
   })
   const [submitted, setSubmitted] = useState(false)
   const [pending, setPending] = useState(false)
@@ -64,6 +65,7 @@ export default function Hero() {
           phone: formData.phone.trim(),
           serviceType: serviceLabel,
           description: formData.description.trim(),
+          company: formData.company,
         }),
       })
 
@@ -78,7 +80,13 @@ export default function Hero() {
 
       setSubmitted(true)
       setTimeout(() => setSubmitted(false), 4000)
-      setFormData({ fullName: '', phone: '', serviceType: '', description: '' })
+      setFormData({
+        fullName: '',
+        phone: '',
+        serviceType: '',
+        description: '',
+        company: '',
+      })
       // Remount so Chrome drops autofill styling on the cleared fields
       setFormKey((k) => k + 1)
     } catch {
@@ -195,6 +203,7 @@ export default function Hero() {
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                     className={fieldClass}
                     autoComplete="name"
+                    maxLength={80}
                   />
                   <input
                     type="tel"
@@ -203,6 +212,19 @@ export default function Hero() {
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className={fieldClass}
                     autoComplete="tel"
+                    maxLength={30}
+                  />
+                  <input
+                    type="text"
+                    name="company"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={formData.company}
+                    onChange={(e) =>
+                      setFormData({ ...formData, company: e.target.value })
+                    }
+                    className="absolute -left-[9999px] h-0 w-0 opacity-0"
+                    aria-hidden="true"
                   />
                   <AnimatedSelect
                     options={serviceOptions}
@@ -217,6 +239,7 @@ export default function Hero() {
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     className={`${fieldClass} resize-none`}
+                    maxLength={1000}
                   />
                   <FormSubmitSlot
                     label="Get a Free Estimate"
