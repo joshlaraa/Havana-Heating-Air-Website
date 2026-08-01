@@ -54,7 +54,7 @@ const testimonials = [
   },
   {
     quote:
-      'Seasonal tune-up made a real difference — quieter system, lower bills, and no surprise breakdowns this summer.',
+      'Seasonal tune-up made a real difference. Quieter system, lower bills, and no surprise breakdowns this summer.',
     city: 'La Mesa',
     author: 'Andre C.',
     source: 'Google' as const,
@@ -160,7 +160,7 @@ export default function TestimonialsSection() {
 
           <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
             <div className="max-w-xl text-center">
-              <h2 className="heading-section text-ink drop-shadow-[0_1px_12px_rgba(255,255,255,0.9)]">
+              <h2 className="heading-section text-ink">
                 Trusted by homeowners
                 <span className="mt-1 block font-sans text-base font-normal text-ink-muted sm:text-lg lg:text-xl">
                   across San Diego County

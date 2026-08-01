@@ -1,20 +1,21 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { HiArrowRight, HiCheck } from 'react-icons/hi2'
+import { HiCheck } from 'react-icons/hi2'
+import { PiArrowUpRightBold } from 'react-icons/pi'
 import SanDiegoMapPoster from '@/components/san-diego-map-poster'
 
 const features = [
-  'Reliable Comfort You Can Count On Year-Round',
-  'Expert Installation, Repair, and Maintenance',
-  'Commitment to Quality, Excellence in Service',
+  'Year-round heating and cooling you can trust',
+  'Installs, repairs, and maintenance done right',
+  'Owner-operated service with clear, honest pricing',
 ]
 
 type AboutSectionProps = {
-  /** When false, hides the homepage "Read More" CTA (e.g. on /about-us). */
-  showReadMore?: boolean
+  /** When false, hides the homepage about CTA (e.g. on /about-us). */
+  showAboutCta?: boolean
 }
 
-export default function AboutSection({ showReadMore = true }: AboutSectionProps) {
+export default function AboutSection({ showAboutCta = true }: AboutSectionProps) {
   return (
     <section id="about" className="section-y bg-white">
       <div className="container-site grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
@@ -64,17 +65,17 @@ export default function AboutSection({ showReadMore = true }: AboutSectionProps)
             <span className="eyebrow">About Us</span>
           </div>
 
-          <h2 className="heading-section mb-5 max-w-xl text-ink">
-            Delivering Dependable Comfort for Every Home
+          <h2 className="heading-section mb-5 max-w-xl">
+            Comfort you can count on, from a team that shows up
           </h2>
 
           <p className="body-lead mb-8 max-w-lg">
-            Named after Havana, the capital and largest city of Cuba, we bring that same spirit of
-            hospitality and hard work to every home we serve. Just as Havana thrives in the heat,
-            we keep your space cool, comfortable, and cared for year-round.
+            We named the company after Havana, Cuba. That same hospitality and hard work go into
+            every home we serve. When San Diego heats up, we keep your place cool, comfortable, and
+            taken care of.
           </p>
 
-          <ul className={`flex flex-col gap-4 ${showReadMore ? 'mb-10' : ''}`}>
+          <ul className={`flex flex-col gap-4 ${showAboutCta ? 'mb-10' : ''}`}>
             {features.map((feature) => (
               <li key={feature} className="flex items-start gap-3">
                 <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-ink">
@@ -85,11 +86,11 @@ export default function AboutSection({ showReadMore = true }: AboutSectionProps)
             ))}
           </ul>
 
-          {showReadMore && (
+          {showAboutCta && (
             <div>
-              <Link href="/about-us" className="btn-primary">
-                Read More
-                <HiArrowRight size={16} />
+              <Link href="/about-us" className="link-cta">
+                Learn More
+                <PiArrowUpRightBold size={14} />
               </Link>
             </div>
           )}

@@ -3,108 +3,9 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import {
-  PiArrowUpRightBold,
-  PiFanFill,
-  PiFlameFill,
-  PiSnowflakeFill,
-  PiSparkleFill,
-  PiWrenchFill,
-} from 'react-icons/pi'
+import { PiArrowUpRightBold } from 'react-icons/pi'
 import { cn } from '@/lib/utils'
-
-const services = [
-  {
-    id: 'ac-installation',
-    label: 'AC Installation',
-    href: '/services/ac-installation',
-    icon: PiSnowflakeFill,
-    description:
-      'Professional air conditioning installation sized for your home — efficient cooling, clean workmanship, and systems built to last through San Diego summers.',
-    images: [
-      {
-        src: '/images/ac-installation.png',
-        alt: 'Technician installing a residential air conditioning unit',
-      },
-      {
-        src: '/images/ac-installation-2.png',
-        alt: 'HVAC professional working on ceiling AC equipment',
-      },
-    ],
-  },
-  {
-    id: 'heating-repair',
-    label: 'Heating Repair',
-    href: '/services/heating-repair',
-    icon: PiFlameFill,
-    description:
-      'Fast, honest heating repair when your system fails. We diagnose the issue, explain your options clearly, and restore warmth without the runaround.',
-    images: [
-      {
-        src: '/images/hero-bg-2.png',
-        alt: 'Technician servicing heating and cooling equipment',
-      },
-      {
-        src: '/images/hero-bg-mobile.png',
-        alt: 'Close-up of HVAC service work in progress',
-      },
-    ],
-  },
-  {
-    id: 'ac-maintenance',
-    label: 'AC Maintenance',
-    href: '/services/ac-maintenance',
-    icon: PiWrenchFill,
-    description:
-      'Seasonal tune-ups that keep your AC running quieter, cooler, and more efficiently — catching small issues before they become expensive breakdowns.',
-    images: [
-      {
-        src: '/images/hero-bg.png',
-        alt: 'Technician performing air conditioning maintenance',
-      },
-      {
-        src: '/images/about-hvac.png',
-        alt: 'Residential HVAC unit being serviced outdoors',
-      },
-    ],
-  },
-  {
-    id: 'furnace-repair',
-    label: 'Furnace Repair',
-    href: '/services/furnace-repair',
-    icon: PiFanFill,
-    description:
-      'Reliable furnace repair for safer, steadier heat. From ignition problems to airflow issues, we get your furnace back online with care and precision.',
-    images: [
-      {
-        src: '/images/hero-bg-mobile-2.png',
-        alt: 'HVAC technician inspecting furnace and duct equipment',
-      },
-      {
-        src: '/images/hero-bg-2.png',
-        alt: 'Professional heating system service',
-      },
-    ],
-  },
-  {
-    id: 'indoor-air-quality',
-    label: 'Indoor Air Quality',
-    href: '/services/indoor-air-quality',
-    icon: PiSparkleFill,
-    description:
-      'Cleaner air for healthier homes — filtration upgrades, duct solutions, and humidity control that reduce dust, allergens, and stale indoor air.',
-    images: [
-      {
-        src: '/images/about-hvac.png',
-        alt: 'Home comfort system supporting cleaner indoor air',
-      },
-      {
-        src: '/images/hero-bg-mobile.png',
-        alt: 'Technician improving indoor air quality systems',
-      },
-    ],
-  },
-] as const
+import { services } from '@/lib/services'
 
 export default function ServicesSection() {
   const [activeId, setActiveId] = useState<(typeof services)[number]['id']>(services[0].id)
@@ -126,13 +27,13 @@ export default function ServicesSection() {
         <div className="grid w-full grid-cols-1 items-stretch gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Left column */}
           <div className="flex h-full flex-col">
-            <h2 className="heading-section mb-3 text-ink">
+            <h2 className="heading-section mb-3">
               HVAC
               <br />
               Services
             </h2>
             <p className="body-lead mb-8 max-w-sm">
-              Expert heating, cooling, and air solutions for every home we serve
+              Heating, cooling, and air solutions for homes across San Diego County
             </p>
 
             <div

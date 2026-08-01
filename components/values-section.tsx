@@ -14,31 +14,31 @@ const pillars: {
     title: 'Our Story',
     icon: PiHandshake,
     description:
-      'Named after Havana and rooted in Cuban hospitality, we built this company to bring hard work, warmth, and dependable HVAC care to every home we serve across San Diego County.',
+      'Named after Havana and built on Cuban hospitality, we bring hard work and dependable HVAC care to every home we serve in San Diego County.',
   },
   {
     title: 'Our Mission',
     icon: PiHouseLine,
     description:
-      'Deliver honest, lasting comfort — from precise installs to careful repairs — so your family stays cool in summer, warm in winter, and confident year-round.',
+      'Keep your family comfortable with honest installs, careful repairs, and service you can trust when summer heat or winter cold hits.',
   },
   {
     title: 'What Sets Us Apart',
     icon: PiSealCheck,
     description:
-      'Freshly licensed with real field experience. Owner-operated accountability, clear communication, and workmanship that treats your home with respect.',
+      'Freshly licensed with real field experience. Owner-operated, clear communication, and workmanship that treats your home with respect.',
   },
 ]
 
 export default function ValuesSection() {
   return (
-    <section id="values" className="section-y border-t border-border bg-white">
+    <section id="values" className="section-y bg-brand-light">
       <div className="container-site grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-10 lg:gap-16">
         {pillars.map(({ title, description, icon: Icon }) => (
-          <div key={title} className="group flex flex-col items-start">
+          <div key={title} className="flex flex-col items-start">
             <Icon
               size={40}
-              className="text-ink transition-colors duration-300 group-hover:text-brand-red"
+              className="text-brand-red"
               aria-hidden="true"
             />
             <h3 className="font-heading mt-5 text-xl font-bold text-ink sm:text-[1.35rem]">

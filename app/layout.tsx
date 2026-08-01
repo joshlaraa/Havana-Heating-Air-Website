@@ -7,7 +7,7 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Havana Heating and Air | Your Comfort Is Our Passion',
   description:
-    'Havana Heating and Air provides expert HVAC installation, repair, and maintenance for residential and commercial properties. Call 909.235.0771 today.',
+    'Havana Heating and Air offers HVAC installation, repair, and maintenance for San Diego County homes. Call 909.235.0771 for a free estimate.',
   keywords: 'HVAC, heating, air conditioning, AC repair, furnace installation, Havana Heating and Air',
   generator: 'v0.app',
 }

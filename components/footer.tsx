@@ -60,8 +60,8 @@ export default function Footer() {
             </Link>
 
             <p className="body-sm mb-6 max-w-xs font-medium">
-              We&apos;re committed to delivering top-quality HVAC service that keeps your home
-              comfortable year-round. With years of expertise focused on customer care.
+              Local HVAC service for San Diego County homes. Honest work, clear pricing, and comfort
+              you can count on year-round.
             </p>
 
             <div className="flex items-center gap-3">
@@ -80,7 +80,7 @@ export default function Footer() {
 
           {/* Top Links */}
           <div>
-            <h3 className="heading-card mb-5 text-ink">Top Links</h3>
+            <h3 className="heading-card mb-5">Top Links</h3>
             <ul className="flex flex-col gap-3">
               {topLinks.map((link) => (
                 <li key={link.href}>
@@ -97,7 +97,7 @@ export default function Footer() {
 
           {/* Our Services */}
           <div>
-            <h3 className="heading-card mb-5 text-ink">Our Services</h3>
+            <h3 className="heading-card mb-5">Our Services</h3>
             <ul className="flex flex-col gap-3">
               {services.map((link) => (
                 <li key={link.href}>
@@ -114,7 +114,7 @@ export default function Footer() {
 
           {/* Contact Us */}
           <div>
-            <h3 className="heading-card mb-5 text-ink">Contact Us</h3>
+            <h3 className="heading-card mb-5">Contact Us</h3>
             <ul className="flex flex-col gap-4">
               <li>
                 <a

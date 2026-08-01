@@ -112,13 +112,12 @@ export default function Hero() {
             </div>
 
             <h1 className="heading-display mb-6 text-white">
-              Fast HVAC Service for Homes and Businesses
+              Fast, honest HVAC for San Diego homes
             </h1>
 
             <p className="mb-8 max-w-md text-base leading-relaxed text-white/90">
-              Reliable heating, cooling, and air conditioning services for homes and
-              businesses. Our certified technicians deliver fast response, honest
-              pricing, and dependable comfort solutions year-round.
+              AC installs, heating repairs, and tune-ups done right. Call today or request a free
+              estimate and we will get back to you quickly.
             </p>
 
             <div className="mb-10 flex flex-col gap-4 sm:flex-row">
@@ -136,11 +135,11 @@ export default function Hero() {
           {/* RIGHT COLUMN: Request Form Card */}
           <div className="w-full lg:w-[400px] flex-shrink-0">
             <div className="relative z-20 overflow-visible bg-white rounded-2xl p-7 shadow-2xl border border-black/5">
-              <h2 className="heading-card mb-1.5 text-center text-ink">
-                Request Fast HVAC Service
+              <h2 className="heading-card mb-1.5 text-center">
+                Get a Free Estimate
               </h2>
               <p className="text-ink-muted text-sm text-center mb-6">
-                We&apos;ll get back to you shortly.
+                Tell us what you need. We will follow up shortly.
               </p>
 
               <div className="relative">
@@ -185,7 +184,7 @@ export default function Hero() {
                     className={`${fieldClass} resize-none`}
                   />
                   <FormSubmitSlot
-                    label="Submit Request"
+                    label="Get a Free Estimate"
                     error={errorMessage}
                     onErrorDismiss={() => setErrorMessage(null)}
                     className={cn('mt-1', submitted && '[&_*]:transition-none')}

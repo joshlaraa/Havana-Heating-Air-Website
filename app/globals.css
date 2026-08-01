@@ -115,15 +115,15 @@
 
 /* ── Typography ── */
 @utility heading-display {
-  @apply font-heading text-4xl font-bold leading-[1.1] text-balance sm:text-5xl lg:text-[3.4rem];
+  @apply font-heading text-4xl font-bold leading-[1.1] text-ink text-balance sm:text-5xl lg:text-[3.4rem];
 }
 
 @utility heading-section {
-  @apply font-heading text-3xl font-bold leading-[1.15] text-balance sm:text-4xl lg:text-[2.75rem];
+  @apply font-heading text-3xl font-bold leading-[1.15] text-ink text-balance sm:text-4xl lg:text-[2.75rem];
 }
 
 @utility heading-card {
-  @apply font-heading text-lg font-bold;
+  @apply font-heading text-lg font-bold text-ink;
 }
 
 @utility body-lead {

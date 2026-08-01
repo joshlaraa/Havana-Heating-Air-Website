@@ -7,11 +7,11 @@ export default function EstimateCtaSection() {
     <section id="estimate" className="section-y bg-ink">
       <div className="container-site flex flex-col items-center text-center">
         <h2 className="heading-section max-w-2xl text-white">
-          Ready for a free estimate?
+          Need AC or heat fixed? Get a free estimate.
         </h2>
         <p className="mt-4 max-w-md text-base leading-relaxed text-white/65">
-          Honest pricing, fast response, and dependable HVAC service for homes
-          across San Diego County.
+          Tell us what is going on at your home. We will reply with clear next steps and honest
+          pricing for San Diego County.
         </p>
 
         <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
@@ -24,7 +24,7 @@ export default function EstimateCtaSection() {
             className="inline-flex items-center gap-2 text-sm font-medium text-white/75 transition-colors duration-200 hover:text-white"
           >
             <FaPhone size={13} aria-hidden="true" />
-            909.235.0771
+            Call 909.235.0771
           </a>
         </div>
       </div>

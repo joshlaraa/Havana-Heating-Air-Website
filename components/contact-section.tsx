@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import {
   FaFacebookF,
   FaYelp,
@@ -32,9 +33,12 @@ const subjectOptions = [
   { value: 'Other', label: 'Other' },
 ]
 
+const subjectValues = new Set(subjectOptions.map((option) => option.value))
+
 const fieldClass = 'field-input'
 
 export default function ContactSection() {
+  const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -46,6 +50,23 @@ export default function ContactSection() {
   const [submitted, setSubmitted] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [formKey, setFormKey] = useState(0)
+
+  useEffect(() => {
+    const subjectParam = searchParams.get('subject') ?? ''
+    const serviceParam = searchParams.get('service') ?? ''
+    const nextSubject = subjectValues.has(subjectParam) ? subjectParam : ''
+    const nextMessage = serviceParam
+      ? `I'm interested in a free estimate for ${serviceParam}.`
+      : ''
+
+    if (!nextSubject && !nextMessage) return
+
+    setFormData((prev) => ({
+      ...prev,
+      subject: nextSubject || prev.subject,
+      message: nextMessage || prev.message,
+    }))
+  }, [searchParams])
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -83,8 +104,9 @@ export default function ContactSection() {
   }
 
   return (
-    <section className="page-top section-x bg-white pb-24 lg:pb-28">
-      <div className="mx-auto grid max-w-7xl lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)] lg:overflow-visible">
+    <section className="page-top bg-white pb-20 lg:pb-28">
+      <div className="container-site">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)] lg:overflow-visible">
         {/* Left: contact info */}
         <div className="flex flex-col rounded-t-3xl bg-ink px-8 py-10 text-white sm:px-10 sm:py-12 lg:rounded-l-3xl lg:rounded-tr-none lg:px-12 lg:py-14">
           <h1 className="heading-section mb-4 text-white">
@@ -92,8 +114,8 @@ export default function ContactSection() {
           </h1>
 
           <p className="mb-8 max-w-sm text-sm leading-relaxed text-white/70">
-            Have a question about heating, cooling, or scheduling service? Reach out and our team
-            will get back to you shortly.
+            Need a repair, install, or tune-up? Send a message or call. We will get back to you with
+            a clear plan and a free estimate.
           </p>
 
           <div className="mb-12 flex items-center gap-3">
@@ -110,7 +132,7 @@ export default function ContactSection() {
           </div>
 
           <div className="mt-auto border-t border-white/15 pt-8">
-            <h2 className="font-heading mb-6 text-lg font-bold text-white">More contact details</h2>
+            <h2 className="heading-card mb-6 text-white">More contact details</h2>
 
             <div className="grid gap-8 sm:grid-cols-2 sm:gap-0">
               <div className="sm:pr-8">
@@ -162,7 +184,7 @@ export default function ContactSection() {
               aria-hidden={submitted}
             >
               <div>
-                <h2 className="font-heading text-lg font-bold text-ink">Personal information</h2>
+                <h2 className="heading-card">Personal information</h2>
                 <p className="mt-1 text-sm text-ink-muted">
                   Tell us who you are so we can follow up.
                 </p>
@@ -203,7 +225,7 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <h2 className="font-heading text-lg font-bold text-ink">Subject</h2>
+                <h2 className="heading-card">Subject</h2>
                 <p className="mt-1 text-sm text-ink-muted">What can we help you with?</p>
                 <AnimatedSelect
                   className="mt-5"
@@ -216,7 +238,7 @@ export default function ContactSection() {
               </div>
 
               <div>
-                <h2 className="font-heading text-lg font-bold text-ink">Message</h2>
+                <h2 className="heading-card">Message</h2>
                 <p className="mt-1 text-sm text-ink-muted">
                   Share a few details about your home or issue.
                 </p>
@@ -230,7 +252,7 @@ export default function ContactSection() {
               </div>
 
               <FormSubmitSlot
-                label="Send Message"
+                label="Request Free Estimate"
                 error={errorMessage}
                 onErrorDismiss={() => setErrorMessage(null)}
                 className={submitted ? '[&_*]:transition-none' : undefined}
@@ -254,6 +276,7 @@ export default function ContactSection() {
               </p>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>
