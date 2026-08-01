@@ -25,11 +25,13 @@ export default function Hero() {
     description: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [pending, setPending] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [formKey, setFormKey] = useState(0)
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (pending) return
 
     const missing: string[] = []
     if (!formData.fullName.trim()) missing.push('full name')
@@ -46,11 +48,44 @@ export default function Hero() {
     }
 
     setErrorMessage(null)
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 4000)
-    setFormData({ fullName: '', phone: '', serviceType: '', description: '' })
-    // Remount so Chrome drops autofill styling on the cleared fields
-    setFormKey((k) => k + 1)
+    setPending(true)
+
+    const serviceLabel =
+      serviceOptions.find((option) => option.value === formData.serviceType)
+        ?.label ?? formData.serviceType
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'hero',
+          fullName: formData.fullName.trim(),
+          phone: formData.phone.trim(),
+          serviceType: serviceLabel,
+          description: formData.description.trim(),
+        }),
+      })
+
+      const data = (await response.json().catch(() => null)) as {
+        error?: string
+      } | null
+
+      if (!response.ok) {
+        setErrorMessage(data?.error ?? 'Could not send your request. Please try again.')
+        return
+      }
+
+      setSubmitted(true)
+      setTimeout(() => setSubmitted(false), 4000)
+      setFormData({ fullName: '', phone: '', serviceType: '', description: '' })
+      // Remount so Chrome drops autofill styling on the cleared fields
+      setFormKey((k) => k + 1)
+    } catch {
+      setErrorMessage('Could not send your request. Please try again.')
+    } finally {
+      setPending(false)
+    }
   }
 
   const fieldClass = 'field-input'
@@ -187,6 +222,7 @@ export default function Hero() {
                     label="Get a Free Estimate"
                     error={errorMessage}
                     onErrorDismiss={() => setErrorMessage(null)}
+                    pending={pending}
                     className={cn('mt-1', submitted && '[&_*]:transition-none')}
                   />
                 </form>

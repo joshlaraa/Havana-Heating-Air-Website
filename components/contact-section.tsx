@@ -48,6 +48,7 @@ export default function ContactSection() {
     message: '',
   })
   const [submitted, setSubmitted] = useState(false)
+  const [pending, setPending] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [formKey, setFormKey] = useState(0)
 
@@ -68,8 +69,9 @@ export default function ContactSection() {
     }))
   }, [searchParams])
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    if (pending) return
 
     const missing: string[] = []
     if (!formData.firstName.trim()) missing.push('first name')
@@ -89,18 +91,49 @@ export default function ContactSection() {
     }
 
     setErrorMessage(null)
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 4000)
-    setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: '',
-    })
-    // Remount so Chrome drops autofill styling on the cleared fields
-    setFormKey((k) => k + 1)
+    setPending(true)
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'contact',
+          firstName: formData.firstName.trim(),
+          lastName: formData.lastName.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+          subject: formData.subject,
+          message: formData.message.trim(),
+        }),
+      })
+
+      const data = (await response.json().catch(() => null)) as {
+        error?: string
+      } | null
+
+      if (!response.ok) {
+        setErrorMessage(data?.error ?? 'Could not send your request. Please try again.')
+        return
+      }
+
+      setSubmitted(true)
+      setTimeout(() => setSubmitted(false), 4000)
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: '',
+      })
+      // Remount so Chrome drops autofill styling on the cleared fields
+      setFormKey((k) => k + 1)
+    } catch {
+      setErrorMessage('Could not send your request. Please try again.')
+    } finally {
+      setPending(false)
+    }
   }
 
   return (
@@ -255,6 +288,7 @@ export default function ContactSection() {
                 label="Request Free Estimate"
                 error={errorMessage}
                 onErrorDismiss={() => setErrorMessage(null)}
+                pending={pending}
                 className={submitted ? '[&_*]:transition-none' : undefined}
               />
             </form>

@@ -8,6 +8,7 @@ type FormSubmitSlotProps = {
   label: string
   error: string | null
   onErrorDismiss: () => void
+  pending?: boolean
   className?: string
 }
 
@@ -17,6 +18,7 @@ export default function FormSubmitSlot({
   label,
   error,
   onErrorDismiss,
+  pending = false,
   className,
 }: FormSubmitSlotProps) {
   const [phase, setPhase] = useState<Phase>('idle')
@@ -25,6 +27,11 @@ export default function FormSubmitSlot({
   onDismissRef.current = onErrorDismiss
 
   useEffect(() => {
+    if (pending) {
+      setPhase('loading')
+      return
+    }
+
     if (!error) {
       setPhase('idle')
       return
@@ -43,18 +50,21 @@ export default function FormSubmitSlot({
       window.clearTimeout(loadingTimer)
       window.clearTimeout(dismissTimer)
     }
-  }, [error])
+  }, [error, pending])
+
+  const showIdle = phase === 'idle' && !pending
 
   return (
     <div className={cn('relative h-12 w-full', className)}>
       <button
         type="submit"
-        tabIndex={phase === 'idle' ? 0 : -1}
-        aria-hidden={phase !== 'idle'}
+        disabled={pending}
+        tabIndex={showIdle ? 0 : -1}
+        aria-hidden={!showIdle}
         className={cn(
           'absolute inset-0 flex items-center justify-center rounded-full bg-ink px-6 text-sm font-medium text-white transition-[transform,background-color,box-shadow,opacity] duration-200 ease-out',
-          'hover:bg-ink/90 hover:shadow-md',
-          phase === 'idle'
+          'hover:bg-ink/90 hover:shadow-md disabled:cursor-not-allowed',
+          showIdle
             ? 'pointer-events-auto translate-y-0 scale-100 opacity-100'
             : 'pointer-events-none translate-y-1 scale-[0.98] opacity-0'
         )}
