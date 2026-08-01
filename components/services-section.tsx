@@ -121,17 +121,17 @@ export default function ServicesSection() {
   }
 
   return (
-    <section id="services" className="bg-brand-light py-20 lg:py-28">
-      <div className="mx-auto flex max-w-7xl justify-center px-6 lg:px-8">
+    <section id="services" className="section-y bg-brand-light">
+      <div className="container-site flex justify-center">
         <div className="grid w-full grid-cols-1 items-stretch gap-10 lg:grid-cols-2 lg:gap-16">
           {/* Left column */}
           <div className="flex h-full flex-col">
-            <h2 className="font-heading mb-3 text-3xl font-bold leading-[1.15] text-ink text-balance sm:text-4xl lg:text-[2.75rem]">
+            <h2 className="heading-section mb-3 text-ink">
               HVAC
               <br />
               Services
             </h2>
-            <p className="mb-8 max-w-sm text-base leading-relaxed text-ink-muted">
+            <p className="body-lead mb-8 max-w-sm">
               Expert heating, cooling, and air solutions for every home we serve
             </p>
 
@@ -152,7 +152,7 @@ export default function ServicesSection() {
                     aria-selected={isActive}
                     onClick={() => selectService(service.id)}
                     className={cn(
-                      'group flex flex-1 items-center gap-3.5 border-b border-gray-100 px-5 py-4 text-left transition-colors duration-200 last:border-b-0 sm:gap-4 sm:py-5',
+                      'group flex flex-1 items-center gap-3.5 border-b border-border px-5 py-4 text-left transition-colors duration-200 last:border-b-0 sm:gap-4 sm:py-5',
                       isActive
                         ? 'bg-brand-light text-brand-red'
                         : 'bg-white text-ink hover:bg-brand-light hover:text-ink-secondary'
@@ -218,13 +218,10 @@ export default function ServicesSection() {
             <h3 className="font-heading mb-2.5 text-2xl font-bold text-ink sm:text-[1.65rem]">
               {active.label}
             </h3>
-            <p className="mb-4 max-w-md text-[15px] leading-relaxed text-ink-muted">
+            <p className="body-sm mb-4 max-w-md">
               {active.description}
             </p>
-            <Link
-              href={active.href}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-brand-red transition-opacity duration-200 hover:opacity-80"
-            >
+            <Link href={active.href} className="link-cta">
               View Service
               <PiArrowUpRightBold size={14} />
             </Link>

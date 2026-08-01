@@ -52,8 +52,8 @@ export default function FormSubmitSlot({
         tabIndex={phase === 'idle' ? 0 : -1}
         aria-hidden={phase !== 'idle'}
         className={cn(
-          'absolute inset-0 flex items-center justify-center rounded-lg bg-ink px-6 text-sm font-light text-white transition-[transform,background-color,box-shadow,opacity] duration-200 ease-out',
-          'hover:bg-ink/90 hover:shadow-lg',
+          'absolute inset-0 flex items-center justify-center rounded-full bg-ink px-6 text-sm font-medium text-white transition-[transform,background-color,box-shadow,opacity] duration-200 ease-out',
+          'hover:bg-ink/90 hover:shadow-md',
           phase === 'idle'
             ? 'pointer-events-auto translate-y-0 scale-100 opacity-100'
             : 'pointer-events-none translate-y-1 scale-[0.98] opacity-0'
@@ -66,7 +66,7 @@ export default function FormSubmitSlot({
         role="alert"
         aria-hidden={phase !== 'error'}
         className={cn(
-          'absolute inset-0 flex items-center justify-center gap-2 rounded-lg border border-brand-red/20 bg-brand-red/5 px-3 transition-[transform,opacity] duration-200 ease-out',
+          'absolute inset-0 flex items-center justify-center gap-2 rounded-full border border-brand-red/20 bg-brand-red/5 px-3 transition-[transform,opacity] duration-200 ease-out',
           phase === 'error'
             ? 'pointer-events-auto translate-y-0 scale-100 opacity-100'
             : 'pointer-events-none -translate-y-1 scale-[0.98] opacity-0'
@@ -80,7 +80,7 @@ export default function FormSubmitSlot({
         aria-hidden={phase !== 'loading'}
         aria-label="Loading"
         className={cn(
-          'absolute inset-0 flex items-center justify-center rounded-lg bg-ink transition-[transform,opacity] duration-200 ease-out',
+          'absolute inset-0 flex items-center justify-center rounded-full bg-ink transition-[transform,opacity] duration-200 ease-out',
           phase === 'loading'
             ? 'pointer-events-auto translate-y-0 scale-100 opacity-100'
             : 'pointer-events-none translate-y-1 scale-[0.98] opacity-0'

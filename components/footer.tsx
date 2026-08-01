@@ -36,11 +36,11 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="bg-brand-light">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+      <div className="container-site pt-16 pb-10 lg:pt-20">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="inline-flex items-center gap-3 mb-5">
+            <Link href="/" className="mb-5 inline-flex items-center gap-3">
               <div className="relative h-24 w-24 flex-shrink-0">
                 <Image
                   src="/images/havana-logo.png"
@@ -50,16 +50,16 @@ export default function Footer() {
                 />
               </div>
               <div>
-                <p className="font-heading font-bold text-ink text-base leading-tight">
+                <p className="font-heading text-base font-bold leading-tight text-ink">
                   HAVANA
                 </p>
-                <p className="font-heading font-bold text-ink text-base leading-tight">
+                <p className="font-heading text-base font-bold leading-tight text-ink">
                   HEATING AND AIR
                 </p>
               </div>
             </Link>
 
-            <p className="text-ink-muted text-sm leading-relaxed font-medium mb-6 max-w-xs">
+            <p className="body-sm mb-6 max-w-xs font-medium">
               We&apos;re committed to delivering top-quality HVAC service that keeps your home
               comfortable year-round. With years of expertise focused on customer care.
             </p>
@@ -70,7 +70,7 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-ink-secondary transition-all duration-200 hover:border-ink hover:text-ink"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-ink-secondary transition-all duration-200 hover:border-ink hover:text-ink"
                 >
                   <Icon size={15} />
                 </a>
@@ -80,13 +80,13 @@ export default function Footer() {
 
           {/* Top Links */}
           <div>
-            <h3 className="font-heading text-ink text-lg font-bold mb-5">Top Links</h3>
+            <h3 className="heading-card mb-5 text-ink">Top Links</h3>
             <ul className="flex flex-col gap-3">
               {topLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-ink-muted text-sm font-medium hover:text-ink transition-colors"
+                    className="text-sm font-medium text-ink-muted transition-colors hover:text-ink"
                   >
                     {link.label}
                   </Link>
@@ -97,13 +97,13 @@ export default function Footer() {
 
           {/* Our Services */}
           <div>
-            <h3 className="font-heading text-ink text-lg font-bold mb-5">Our Services</h3>
+            <h3 className="heading-card mb-5 text-ink">Our Services</h3>
             <ul className="flex flex-col gap-3">
               {services.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-ink-muted text-sm font-medium hover:text-ink transition-colors"
+                    className="text-sm font-medium text-ink-muted transition-colors hover:text-ink"
                   >
                     {link.label}
                   </Link>
@@ -114,27 +114,27 @@ export default function Footer() {
 
           {/* Contact Us */}
           <div>
-            <h3 className="font-heading text-ink text-lg font-bold mb-5">Contact Us</h3>
+            <h3 className="heading-card mb-5 text-ink">Contact Us</h3>
             <ul className="flex flex-col gap-4">
               <li>
                 <a
                   href="tel:9092350771"
-                  className="flex items-start gap-3 text-ink-muted text-sm font-medium hover:text-ink transition-colors"
+                  className="flex items-start gap-3 text-sm font-medium text-ink-muted transition-colors hover:text-ink"
                 >
                   <FaPhone size={14} className="mt-0.5 flex-shrink-0 text-ink-secondary" />
                   <span>909.235.0771</span>
                 </a>
               </li>
               <li>
-                <div className="flex items-start gap-3 text-ink-muted text-sm font-medium">
+                <div className="flex items-start gap-3 text-sm font-medium text-ink-muted">
                   <FaLocationDot size={14} className="mt-0.5 flex-shrink-0 text-ink-secondary" />
-                  <span>Serving the Inland Empire & Surrounding Areas</span>
+                  <span>Serving San Diego County &amp; Surrounding Areas</span>
                 </div>
               </li>
               <li>
                 <a
                   href="mailto:havanaheatingandair@gmail.com"
-                  className="flex items-start gap-3 text-ink-muted text-sm font-medium hover:text-ink transition-colors"
+                  className="flex items-start gap-3 text-sm font-medium text-ink-muted transition-colors hover:text-ink"
                 >
                   <FaEnvelope size={14} className="mt-0.5 flex-shrink-0 text-ink-secondary" />
                   <span>havanaheatingandair@gmail.com</span>
@@ -145,17 +145,17 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-ink-faint text-sm font-medium">
+      <div className="border-t border-border">
+        <div className="container-site flex flex-col items-center justify-between gap-3 py-5 sm:flex-row">
+          <p className="text-sm font-medium text-ink-faint">
             Copyright ©{new Date().getFullYear()} Havana Heating and Air. All Rights Reserved
           </p>
-          <div className="flex items-center gap-2 text-ink-faint text-sm font-medium">
-            <Link href="/terms" className="hover:text-ink transition-colors">
+          <div className="flex items-center gap-2 text-sm font-medium text-ink-faint">
+            <Link href="/terms" className="transition-colors hover:text-ink">
               Terms & Conditions
             </Link>
             <span aria-hidden="true">|</span>
-            <Link href="/privacy" className="hover:text-ink transition-colors">
+            <Link href="/privacy" className="transition-colors hover:text-ink">
               Privacy Policy
             </Link>
           </div>

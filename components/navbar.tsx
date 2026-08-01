@@ -27,10 +27,10 @@ export default function Navbar() {
   }, [pathname])
 
   return (
-    <nav className="fixed top-6 left-1/2 z-50 w-11/12 max-w-6xl -translate-x-1/2">
+    <nav className="fixed top-6 left-1/2 z-50 w-[calc(100%-2rem)] max-w-7xl -translate-x-1/2 sm:w-11/12">
       <div className="rounded-2xl bg-black/85 px-6 py-4 shadow-2xl backdrop-blur-md md:px-8">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 cursor-pointer">
+          <Link href="/" className="flex cursor-pointer items-center gap-3">
             <div className="relative h-10 w-10 flex-shrink-0 overflow-visible md:h-12 md:w-12">
               <Image
                 src="/images/havana-logo.png"
@@ -59,7 +59,7 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             <Link
               href="/contact"
-              className="hidden cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-red px-7 py-3.5 text-sm font-light text-white transition-all duration-200 hover:bg-brand-red/90 md:inline-flex"
+              className="btn-primary hidden cursor-pointer md:inline-flex"
               prefetch
             >
               <FaPhone size={14} />
@@ -138,7 +138,7 @@ export default function Navbar() {
                   transitionDelay: mobileMenuOpen ? `${80 + NAV_LINKS.length * 40}ms` : '0ms',
                 }}
                 className={cn(
-                  'mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-red px-7 py-3.5 text-center text-sm font-light text-white transition-all duration-300 ease-out hover:bg-brand-red/90',
+                  'btn-primary mt-4 w-full cursor-pointer transition-[transform,opacity] duration-300 ease-out',
                   mobileMenuOpen
                     ? 'translate-y-0 opacity-100'
                     : 'translate-y-1 opacity-0'

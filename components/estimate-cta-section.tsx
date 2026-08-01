@@ -4,9 +4,9 @@ import { FaPhone } from 'react-icons/fa6'
 
 export default function EstimateCtaSection() {
   return (
-    <section id="estimate" className="bg-ink py-20 lg:py-28">
-      <div className="mx-auto flex max-w-7xl flex-col items-center px-6 text-center lg:px-8">
-        <h2 className="font-heading max-w-2xl text-3xl font-bold leading-[1.15] text-white text-balance sm:text-4xl lg:text-[2.75rem]">
+    <section id="estimate" className="section-y bg-ink">
+      <div className="container-site flex flex-col items-center text-center">
+        <h2 className="heading-section max-w-2xl text-white">
           Ready for a free estimate?
         </h2>
         <p className="mt-4 max-w-md text-base leading-relaxed text-white/65">
@@ -15,10 +15,7 @@ export default function EstimateCtaSection() {
         </p>
 
         <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-red px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-white transition-all duration-200 hover:bg-brand-red/90 hover:shadow-lg"
-          >
+          <Link href="/contact" className="btn-primary">
             Get a Free Estimate
             <HiArrowRight size={16} />
           </Link>

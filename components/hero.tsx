@@ -53,8 +53,7 @@ export default function Hero() {
     setFormKey((k) => k + 1)
   }
 
-  const fieldClass =
-    'w-full bg-white border border-gray-200 text-ink placeholder:text-ink-faint rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-ink/30 focus:ring-2 focus:ring-ink/5 transition-[border-color,box-shadow] duration-200'
+  const fieldClass = 'field-input'
 
   return (
     <section
@@ -80,12 +79,12 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/25 to-transparent" />
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-10 pt-36 pb-24 sm:pt-40 lg:pt-44 lg:pb-28">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
+      <div className="container-site page-top relative z-10 pb-24 lg:pb-28">
+        <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-8">
 
           {/* LEFT COLUMN */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-4 mb-6">
+          <div className="min-w-0 flex-1">
+            <div className="mb-6 flex items-center gap-4">
               <div className="flex -space-x-2.5">
                 {[
                   { initials: 'DR', color: 'bg-[#1a73e8]' },
@@ -112,28 +111,22 @@ export default function Hero() {
               </div>
             </div>
 
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-[3.4rem] font-bold text-white leading-[1.1] mb-6 text-balance">
+            <h1 className="heading-display mb-6 text-white">
               Fast HVAC Service for Homes and Businesses
             </h1>
 
-            <p className="text-white text-base leading-relaxed max-w-md mb-8">
+            <p className="mb-8 max-w-md text-base leading-relaxed text-white/90">
               Reliable heating, cooling, and air conditioning services for homes and
               businesses. Our certified technicians deliver fast response, honest
               pricing, and dependable comfort solutions year-round.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-10">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-brand-red hover:bg-brand-red/90 text-white font-light px-7 py-3.5 rounded-full transition-all duration-200 shadow-lg hover:shadow-xl"
-              >
+            <div className="mb-10 flex flex-col gap-4 sm:flex-row">
+              <Link href="/contact" className="btn-primary shadow-lg hover:shadow-xl">
                 Get a Free Estimate
                 <HiArrowRight size={16} />
               </Link>
-              <Link
-                href="/services"
-                className="inline-flex items-center justify-center gap-2 border-2 border-white/60 bg-transparent hover:border-white text-white font-light px-7 py-3.5 rounded-full transition-all duration-200"
-              >
+              <Link href="/services" className="btn-secondary">
                 View Services
                 <HiArrowRight size={16} />
               </Link>
@@ -143,7 +136,7 @@ export default function Hero() {
           {/* RIGHT COLUMN: Request Form Card */}
           <div className="w-full lg:w-[400px] flex-shrink-0">
             <div className="relative z-20 overflow-visible bg-white rounded-2xl p-7 shadow-2xl border border-black/5">
-              <h2 className="font-heading text-ink font-bold text-lg text-center mb-1.5">
+              <h2 className="heading-card mb-1.5 text-center text-ink">
                 Request Fast HVAC Service
               </h2>
               <p className="text-ink-muted text-sm text-center mb-6">

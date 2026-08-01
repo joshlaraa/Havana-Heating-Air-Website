@@ -99,10 +99,10 @@ function FitToJobSites() {
 
 export default function TestimonialsSection() {
   return (
-    <section id="testimonials" className="overflow-hidden bg-white py-20 lg:py-28">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <section id="testimonials" className="section-y overflow-hidden bg-white">
+      <div className="container-site">
         {/* Static San Diego County map — framed on western job sites */}
-        <div className="relative mb-6 h-[28rem] overflow-hidden rounded-[1.75rem] bg-[#e8e8e8] sm:mb-8 sm:h-[34rem] sm:rounded-[2rem] lg:h-[38rem]">
+        <div className="relative mb-6 h-[28rem] overflow-hidden rounded-[1.75rem] bg-brand-light sm:mb-8 sm:h-[34rem] sm:rounded-[2rem] lg:h-[38rem]">
           <Map
             center={[-117.18, 32.92]}
             zoom={9.6}
@@ -149,8 +149,8 @@ export default function TestimonialsSection() {
                   <MarkerTooltip>{site.city}</MarkerTooltip>
                   <MarkerPopup>
                     <div className="space-y-1">
-                      <p className="font-medium text-foreground">{site.city}</p>
-                      <p className="text-xs text-muted-foreground">Job completed</p>
+                      <p className="font-medium text-ink">{site.city}</p>
+                      <p className="text-xs text-ink-muted">Job completed</p>
                     </div>
                   </MarkerPopup>
                 </MapMarker>
@@ -160,7 +160,7 @@ export default function TestimonialsSection() {
 
           <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
             <div className="max-w-xl text-center">
-              <h2 className="font-heading text-3xl font-bold leading-[1.15] text-ink text-balance drop-shadow-[0_1px_12px_rgba(255,255,255,0.9)] sm:text-4xl lg:text-[2.75rem]">
+              <h2 className="heading-section text-ink drop-shadow-[0_1px_12px_rgba(255,255,255,0.9)]">
                 Trusted by homeowners
                 <span className="mt-1 block font-sans text-base font-normal text-ink-muted sm:text-lg lg:text-xl">
                   across San Diego County

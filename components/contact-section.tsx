@@ -32,8 +32,7 @@ const subjectOptions = [
   { value: 'Other', label: 'Other' },
 ]
 
-const fieldClass =
-  'w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-faint transition-[border-color,box-shadow] duration-200 focus:border-ink/30 focus:outline-none focus:ring-2 focus:ring-ink/5'
+const fieldClass = 'field-input'
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -84,11 +83,11 @@ export default function ContactSection() {
   }
 
   return (
-    <section className="bg-white px-6 pb-20 pt-36 sm:pt-40 lg:px-8 lg:pb-28 lg:pt-44">
+    <section className="page-top section-x bg-white pb-24 lg:pb-28">
       <div className="mx-auto grid max-w-7xl lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)] lg:overflow-visible">
         {/* Left: contact info */}
         <div className="flex flex-col rounded-t-3xl bg-ink px-8 py-10 text-white sm:px-10 sm:py-12 lg:rounded-l-3xl lg:rounded-tr-none lg:px-12 lg:py-14">
-          <h1 className="font-heading mb-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-[2.75rem]">
+          <h1 className="heading-section mb-4 text-white">
             Contact us
           </h1>
 

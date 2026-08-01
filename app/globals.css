@@ -96,6 +96,69 @@
   --sidebar-ring: #c1121f;
 }
 
+/* ── Layout (8pt rhythm, Apple-style continuous spacing) ── */
+@utility page-top {
+  @apply pt-32 sm:pt-36 lg:pt-40;
+}
+
+@utility section-y {
+  @apply py-20 lg:py-28;
+}
+
+@utility section-x {
+  @apply px-6 lg:px-8;
+}
+
+@utility container-site {
+  @apply mx-auto w-full max-w-7xl section-x;
+}
+
+/* ── Typography ── */
+@utility heading-display {
+  @apply font-heading text-4xl font-bold leading-[1.1] text-balance sm:text-5xl lg:text-[3.4rem];
+}
+
+@utility heading-section {
+  @apply font-heading text-3xl font-bold leading-[1.15] text-balance sm:text-4xl lg:text-[2.75rem];
+}
+
+@utility heading-card {
+  @apply font-heading text-lg font-bold;
+}
+
+@utility body-lead {
+  @apply text-base leading-relaxed text-ink-muted;
+}
+
+@utility body-sm {
+  @apply text-[15px] leading-relaxed text-ink-muted;
+}
+
+@utility eyebrow {
+  @apply text-xs font-bold uppercase tracking-[0.12em] text-ink;
+}
+
+/* ── Buttons (one primary language sitewide) ── */
+@utility btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-brand-red px-7 py-3.5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-brand-red/90 hover:shadow-md;
+}
+
+@utility btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-white/60 bg-transparent px-7 py-3.5 text-sm font-medium text-white transition-all duration-200 hover:border-white;
+}
+
+@utility btn-submit {
+  @apply inline-flex w-full items-center justify-center rounded-full bg-ink px-6 py-3.5 text-sm font-medium text-white transition-all duration-200 hover:bg-ink/90 hover:shadow-md;
+}
+
+@utility link-cta {
+  @apply inline-flex items-center gap-1.5 text-sm font-medium text-brand-red transition-opacity duration-200 hover:opacity-80;
+}
+
+@utility field-input {
+  @apply w-full rounded-xl border border-border bg-white px-4 py-3 text-sm text-ink placeholder:text-ink-faint transition-[border-color,box-shadow] duration-200 focus:border-ink/30 focus:outline-none focus:ring-2 focus:ring-ink/5;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

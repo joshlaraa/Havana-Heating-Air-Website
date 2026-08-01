@@ -109,7 +109,7 @@ export default function AnimatedSelect({
         onClick={() => setOpen((prev) => !prev)}
         onKeyDown={handleTriggerKeyDown}
         className={cn(
-          'flex w-full items-center justify-between gap-3 rounded-lg border border-gray-200 bg-white px-4 py-3 text-left text-sm transition-all duration-200',
+          'flex w-full items-center justify-between gap-3 rounded-xl border border-border bg-white px-4 py-3 text-left text-sm transition-all duration-200',
           'focus:border-ink/30 focus:outline-none focus:ring-2 focus:ring-ink/5',
           open && 'border-ink/30 ring-2 ring-ink/5',
           selected ? 'text-ink' : 'text-ink-faint'
@@ -141,7 +141,7 @@ export default function AnimatedSelect({
             highlighted >= 0 ? `${listId}-option-${options[highlighted]?.value}` : undefined
           }
           onKeyDown={handleListKeyDown}
-          className="max-h-56 overflow-hidden rounded-xl border border-gray-200 bg-white py-1.5 shadow-xl shadow-ink/10"
+          className="max-h-56 overflow-hidden rounded-xl border border-border bg-white py-1.5 shadow-xl shadow-ink/10"
         >
           <div className="max-h-[13.5rem] overflow-auto px-1.5">
             {options.map((option, index) => {
