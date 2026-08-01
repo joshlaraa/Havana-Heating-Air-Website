@@ -113,6 +113,45 @@
     font-weight: 700;
     color: var(--color-ink);
   }
+  .maplibregl-popup-content {
+    @apply bg-transparent! shadow-none! p-0! rounded-none!;
+  }
+  .maplibregl-popup-tip {
+    @apply hidden!;
+  }
+  .maplibregl-ctrl-attrib {
+    @apply bg-background! text-muted-foreground! border-border! rounded-md! border! shadow-sm!;
+  }
+  .maplibregl-ctrl-attrib a {
+    @apply text-muted-foreground!;
+  }
+  .maplibregl-ctrl-attrib a:hover {
+    @apply text-foreground!;
+  }
+  .maplibregl-ctrl-attrib-button {
+    @apply bg-transparent! dark:invert;
+  }
+}
+
+/* Slow, staggered map marker ripple (live location style) */
+@keyframes map-marker-ripple {
+  0% {
+    transform: scale(0.65);
+    opacity: 0.55;
+  }
+  70% {
+    opacity: 0.12;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.map-marker-ripple {
+  animation-name: map-marker-ripple;
+  animation-timing-function: ease-out;
+  animation-iteration-count: infinite;
 }
 
 /* Soft pastel autofill (Apple-style) — unlayered so it beats Chrome's blue.

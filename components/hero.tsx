@@ -85,17 +85,17 @@ export default function Hero() {
             <div className="flex items-center gap-4 mb-6">
               <div className="flex -space-x-2.5">
                 {[
-                  'https://i.pravatar.cc/40?img=11',
-                  'https://i.pravatar.cc/40?img=32',
-                  'https://i.pravatar.cc/40?img=56',
-                  'https://i.pravatar.cc/40?img=44',
-                ].map((src, i) => (
+                  { initials: 'DR', color: 'bg-[#1a73e8]' },
+                  { initials: 'HM', color: 'bg-[#e37400]' },
+                  { initials: 'AC', color: 'bg-[#188038]' },
+                  { initials: 'MR', color: 'bg-[#a142f4]' },
+                ].map((person) => (
                   <div
-                    key={i}
-                    className="w-9 h-9 rounded-full border-2 border-white/80 overflow-hidden flex-shrink-0"
+                    key={person.initials}
+                    className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border-2 border-white/80 text-[11px] font-semibold tracking-wide text-white ${person.color}`}
+                    aria-hidden="true"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={src} alt="customer" className="w-full h-full object-cover" />
+                    {person.initials}
                   </div>
                 ))}
               </div>
@@ -105,7 +105,7 @@ export default function Hero() {
                     <HiStar key={i} size={14} className="fill-amber-400 text-amber-400" />
                   ))}
                 </div>
-                <p className="text-white/60 text-xs mt-0.5">4.9/5 Google Rating</p>
+                <p className="mt-0.5 text-xs text-white/60">4.9/5 Rating</p>
               </div>
             </div>
 

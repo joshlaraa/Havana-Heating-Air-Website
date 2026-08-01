@@ -23,11 +23,11 @@ const services = [
       'Professional air conditioning installation sized for your home — efficient cooling, clean workmanship, and systems built to last through San Diego summers.',
     images: [
       {
-        src: '/images/about-hvac.png',
+        src: '/images/ac-installation.png',
         alt: 'Technician installing a residential air conditioning unit',
       },
       {
-        src: '/images/hero-bg.png',
+        src: '/images/ac-installation-2.png',
         alt: 'HVAC professional working on ceiling AC equipment',
       },
     ],

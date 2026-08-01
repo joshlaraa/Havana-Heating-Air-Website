@@ -22,7 +22,7 @@ export default function AboutSection() {
             <div className="pt-0 lg:pt-16">
               <div className="relative aspect-[3/4] overflow-hidden rounded-[2.75rem_0.75rem_0.75rem_0.75rem] lg:rounded-[5.5rem_1rem_1rem_1rem]">
                 <Image
-                  src="/images/about-hvac.png"
+                  src="/images/van.png"
                   alt="Havana Heating and Air technician servicing a residential HVAC unit"
                   fill
                   className="object-cover"
