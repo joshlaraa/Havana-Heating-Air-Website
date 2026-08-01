@@ -26,6 +26,7 @@ export default function Hero() {
   })
   const [submitted, setSubmitted] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [formKey, setFormKey] = useState(0)
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -48,6 +49,8 @@ export default function Hero() {
     setSubmitted(true)
     setTimeout(() => setSubmitted(false), 4000)
     setFormData({ fullName: '', phone: '', serviceType: '', description: '' })
+    // Remount so Chrome drops autofill styling on the cleared fields
+    setFormKey((k) => k + 1)
   }
 
   const fieldClass =
@@ -149,6 +152,7 @@ export default function Hero() {
 
               <div className="relative">
                 <form
+                  key={formKey}
                   onSubmit={handleSubmit}
                   noValidate
                   className={cn(

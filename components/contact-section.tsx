@@ -46,6 +46,7 @@ export default function ContactSection() {
   })
   const [submitted, setSubmitted] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [formKey, setFormKey] = useState(0)
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -78,6 +79,8 @@ export default function ContactSection() {
       subject: '',
       message: '',
     })
+    // Remount so Chrome drops autofill styling on the cleared fields
+    setFormKey((k) => k + 1)
   }
 
   return (
@@ -150,6 +153,7 @@ export default function ContactSection() {
         <div className="relative z-10 overflow-visible rounded-b-3xl bg-brand-light px-8 py-10 sm:px-10 sm:py-12 lg:rounded-r-3xl lg:rounded-bl-none lg:px-12 lg:py-14">
           <div className="relative">
             <form
+              key={formKey}
               onSubmit={handleSubmit}
               noValidate
               className={cn(
