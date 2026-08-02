@@ -27,23 +27,50 @@ function allowedOrigins(): Set<string> {
   return origins
 }
 
+function requestHost(request: Request): string | null {
+  const host = request.headers.get('x-forwarded-host') || request.headers.get('host')
+  return host?.split(',')[0]?.trim().toLowerCase() || null
+}
+
+function originMatchesHost(originOrUrl: string, host: string): boolean {
+  try {
+    return new URL(originOrUrl).host.toLowerCase() === host
+  } catch {
+    return false
+  }
+}
+
 function isAllowedRequest(request: Request): boolean {
   const allowed = allowedOrigins()
+  const host = requestHost(request)
   const origin = request.headers.get('origin')
-  if (origin && allowed.has(origin)) return true
+
+  // True same-origin: browser Origin host matches the request Host.
+  // Covers custom domains and preview URLs without hardcoding every alias.
+  if (origin) {
+    if (host && originMatchesHost(origin, host)) return true
+    if (allowed.has(origin)) return true
+    // Origin present but not allowed — do not fall back to Referer.
+    return false
+  }
 
   const referer = request.headers.get('referer')
   if (referer) {
     try {
       const refOrigin = new URL(referer).origin
+      if (host && originMatchesHost(referer, host)) return true
       if (allowed.has(refOrigin)) return true
     } catch {
       return false
     }
   }
 
-  // Same-origin fetches from some browsers omit Origin; allow when both absent
-  // only in non-production local/dev. In production require Origin or Referer.
+  // Safari / privacy modes may omit Origin + Referer on same-origin fetch.
+  // Sec-Fetch-Site is browser-controlled and cannot be set from JS.
+  const fetchSite = request.headers.get('sec-fetch-site')
+  if (fetchSite === 'same-origin') return true
+
+  // Local/dev tooling (curl, etc.) often sends neither header.
   if (!origin && !referer && process.env.NODE_ENV !== 'production') {
     return true
   }
