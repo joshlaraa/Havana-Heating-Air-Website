@@ -27,9 +27,13 @@ const services = [
 ]
 
 const socials = [
-  { label: 'Yelp', href: '#', icon: FaYelp },
+  {
+    label: 'Yelp',
+    href: 'https://www.yelp.com/biz/havana-heating-and-air-escondido-2',
+    icon: FaYelp,
+  },
   { label: 'Google Reviews', href: '#', icon: FaGoogle },
-  { label: 'Instagram', href: '#', icon: FaInstagram },
+  { label: 'Instagram', href: 'https://www.instagram.com/havanaheatingandair', icon: FaInstagram },
   { label: 'Facebook', href: '#', icon: FaFacebookF },
 ]
 

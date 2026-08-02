@@ -121,6 +121,66 @@ function contactActions(payload: LeadPayload) {
   `
 }
 
+const CHART_MAX_HEIGHT = 72
+
+function trafficChart(traffic: SiteTrafficSnapshot) {
+  const maxViews = Math.max(1, ...traffic.days.map((day) => day.pageviews))
+
+  const bars = traffic.days
+    .map((day) => {
+      const height = Math.max(
+        day.pageviews > 0 ? 4 : 2,
+        Math.round((day.pageviews / maxViews) * CHART_MAX_HEIGHT)
+      )
+      const spacer = CHART_MAX_HEIGHT - height
+      const barColor = day.pageviews > 0 ? BRAND.red : BRAND.border
+      return `
+        <td width="14.28%" style="padding:0 3px;vertical-align:bottom;text-align:center;">
+          <p style="margin:0 0 6px;font-family:${FONT_SANS};font-size:10px;line-height:1;color:${BRAND.inkMuted};">
+            ${day.pageviews > 0 ? escapeHtml(formatCount(day.pageviews)) : '&nbsp;'}
+          </p>
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td height="${spacer}" style="height:${spacer}px;font-size:0;line-height:0;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center" height="${height}" bgcolor="${barColor}" style="height:${height}px;background-color:${barColor};border-radius:6px 6px 2px 2px;font-size:0;line-height:0;">
+                &nbsp;
+              </td>
+            </tr>
+          </table>
+        </td>
+      `
+    })
+    .join('')
+
+  const labels = traffic.days
+    .map(
+      (day) => `
+        <td width="14.28%" style="padding:8px 3px 0;text-align:center;font-family:${FONT_SANS};font-size:11px;line-height:1.2;color:${BRAND.inkMuted};">
+          ${escapeHtml(day.label)}
+        </td>
+      `
+    )
+    .join('')
+
+  return `
+    <tr>
+      <td style="padding:4px 12px 4px;">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="padding:0 4px 10px;font-family:${FONT_SANS};font-size:12px;line-height:1.4;color:${BRAND.inkMuted};">
+              Views · ${escapeHtml(traffic.weekLabel)}
+            </td>
+          </tr>
+          <tr>${bars}</tr>
+          <tr>${labels}</tr>
+        </table>
+      </td>
+    </tr>
+  `
+}
+
 function analyticsSection(traffic: SiteTrafficSnapshot | null) {
   const cell = (label: string, value: string) => `
     <td width="50%" style="padding:12px 8px;text-align:center;vertical-align:top;">
@@ -133,13 +193,11 @@ function analyticsSection(traffic: SiteTrafficSnapshot | null) {
     </td>
   `
 
-  const viewsToday = traffic ? formatCount(traffic.pageviewsToday) : '—'
-  const visitorsToday = traffic ? formatCount(traffic.visitorsToday) : '—'
   const views7d = traffic ? formatCount(traffic.pageviews7d) : '—'
   const visitors7d = traffic ? formatCount(traffic.visitors7d) : '—'
 
   const footnote = traffic
-    ? 'Live from Vercel Web Analytics'
+    ? `Live from Vercel Web Analytics · Sat–Fri · ${traffic.weekLabel}`
     : 'Enable Web Analytics in Vercel and set VERCEL_API_TOKEN to show live traffic'
 
   return `
@@ -152,21 +210,18 @@ function analyticsSection(traffic: SiteTrafficSnapshot | null) {
             </td>
           </tr>
           <tr>
-            <td style="padding:0 8px 8px;">
+            <td style="padding:0 8px 4px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
                 <tr>
-                  ${cell('Views today', viewsToday)}
-                  ${cell('Visitors today', visitorsToday)}
-                </tr>
-                <tr>
-                  ${cell('Views · last 7 days', views7d)}
-                  ${cell('Visitors · last 7 days', visitors7d)}
+                  ${cell('Views this week', views7d)}
+                  ${cell('Visitors this week', visitors7d)}
                 </tr>
               </table>
             </td>
           </tr>
+          ${traffic ? trafficChart(traffic) : ''}
           <tr>
-            <td style="padding:0 16px 16px;font-family:${FONT_SANS};font-size:11px;line-height:1.4;color:${BRAND.inkFaint};">
+            <td style="padding:8px 16px 16px;font-family:${FONT_SANS};font-size:11px;line-height:1.4;color:${BRAND.inkFaint};">
               ${escapeHtml(footnote)}
             </td>
           </tr>
