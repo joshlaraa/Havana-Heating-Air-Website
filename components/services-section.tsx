@@ -100,7 +100,7 @@ export default function ServicesSection() {
                   src={active.images[0].src}
                   alt={active.images[0].alt}
                   fill
-                  className="object-cover"
+                  className={cn('object-cover', active.images[0].objectPosition)}
                   sizes="(max-width: 1024px) 45vw, 280px"
                 />
               </div>
@@ -110,7 +110,7 @@ export default function ServicesSection() {
                   src={active.images[1].src}
                   alt={active.images[1].alt}
                   fill
-                  className="object-cover"
+                  className={cn('object-cover', active.images[1].objectPosition)}
                   sizes="(max-width: 1024px) 45vw, 240px"
                 />
               </div>

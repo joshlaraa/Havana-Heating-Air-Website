@@ -9,11 +9,12 @@ import FormSubmitSlot from '@/components/ui/form-submit-slot'
 import { cn } from '@/lib/utils'
 
 const serviceOptions = [
-  { value: 'ac-repair', label: 'AC Repair' },
-  { value: 'heating', label: 'Heating Repair' },
-  { value: 'installation', label: 'New Installation' },
-  { value: 'maintenance', label: 'Maintenance / Tune-Up' },
-  { value: 'emergency', label: 'Emergency Service' },
+  { value: 'air-conditioning', label: 'Air Conditioning' },
+  { value: 'heating', label: 'Heating' },
+  { value: 'mini-split-systems', label: 'Mini Split Systems' },
+  { value: 'quiet-cool-installation', label: 'Quiet Cool Installation' },
+  { value: 'service-repairs', label: 'Service & Repairs' },
+  { value: 'new-installations', label: 'New Installations' },
   { value: 'other', label: 'Other' },
 ]
 
@@ -159,8 +160,8 @@ export default function Hero() {
             </h1>
 
             <p className="mb-8 max-w-md text-base leading-relaxed text-white/90">
-              AC installs, heating repairs, and tune-ups done right. Call today or request a free
-              estimate and we will get back to you quickly.
+              Air conditioning, heating, mini splits, and QuietCool installs done right. Call today
+              or request a free estimate and we will get back to you quickly.
             </p>
 
             <div className="mb-10 flex flex-col gap-4 sm:flex-row">

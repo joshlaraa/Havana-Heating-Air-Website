@@ -9,6 +9,7 @@ import {
   FaLocationDot,
   FaEnvelope,
 } from 'react-icons/fa6'
+import { services } from '@/lib/services'
 
 const topLinks = [
   { label: 'About Us', href: '/about-us' },
@@ -16,14 +17,6 @@ const topLinks = [
   { label: 'Recent Blog', href: '/blog' },
   { label: 'Our Team', href: '/team' },
   { label: 'Contact Us', href: '/contact' },
-]
-
-const services = [
-  { label: 'AC Installation', href: '/services/ac-installation' },
-  { label: 'Heating Repair', href: '/services/heating-repair' },
-  { label: 'AC Maintenance', href: '/services/ac-maintenance' },
-  { label: 'Furnace Repair', href: '/services/furnace-repair' },
-  { label: 'Indoor Air Quality', href: '/services/indoor-air-quality' },
 ]
 
 const socials = [

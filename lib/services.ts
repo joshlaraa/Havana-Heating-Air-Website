@@ -1,8 +1,9 @@
 import {
-  PiFanFill,
-  PiFlameFill,
+  PiArrowsClockwiseFill,
+  PiFireFill,
+  PiHouseFill,
   PiSnowflakeFill,
-  PiSparkleFill,
+  PiWindFill,
   PiWrenchFill,
 } from 'react-icons/pi'
 import type { IconType } from 'react-icons'
@@ -20,6 +21,13 @@ export type ServiceDetail = {
   closing: readonly string[]
 }
 
+export type ServiceImage = {
+  src: string
+  alt: string
+  /** Tailwind object-position class; defaults to center via object-cover */
+  objectPosition?: string
+}
+
 export type Service = {
   id: string
   label: string
@@ -28,43 +36,50 @@ export type Service = {
   estimateSubject: string
   icon: IconType
   description: string
-  images: readonly [{ src: string; alt: string }, { src: string; alt: string }]
+  /** Home page left / right pair */
+  images: readonly [ServiceImage, ServiceImage]
+  /** Services card + detail sidebar; defaults to images[0] */
+  cardImage?: ServiceImage
   detail: ServiceDetail
 }
 
 export const services: readonly Service[] = [
   {
-    id: 'ac-installation',
-    label: 'AC Installation',
-    href: '/services/ac-installation',
-    estimateSubject: 'New Installation',
+    id: 'air-conditioning',
+    label: 'Air Conditioning',
+    href: '/services/air-conditioning',
+    estimateSubject: 'Air Conditioning',
     icon: PiSnowflakeFill,
     description:
-      'New AC systems sized for your home. Clean installs, honest pricing, and equipment that holds up through San Diego summers.',
+      'Installation, repair, and maintenance for residential AC. Clean work, honest pricing, and cooling that holds up through San Diego summers.',
     images: [
       {
-        src: '/images/ac-installation.png',
-        alt: 'Technician installing a residential air conditioning unit',
+        src: '/images/duo-ac-units.png',
+        alt: 'Two outdoor air conditioning condenser units',
       },
       {
-        src: '/images/ac-installation-2.png',
-        alt: 'HVAC professional working on ceiling AC equipment',
+        src: '/images/duo-ac-units-repaired.png',
+        alt: 'Repaired outdoor air conditioning condenser units',
       },
     ],
+    cardImage: {
+      src: '/images/duo-ac-units-repaired.png',
+      alt: 'Repaired outdoor air conditioning condenser units',
+    },
     detail: {
       about: [
-        'The right AC for your home depends on more than square footage. We look at your layout, insulation, and how you use the space so the system we install actually fits your house.',
-        'From picking the equipment to startup, we keep the job site clean and walk you through what we are doing. No surprises when we leave.',
-        'Whether you are replacing an old unit or adding AC for the first time, we install for quiet operation, good efficiency, and years of reliable cooling in San Diego heat.',
+        'The right AC for your home depends on more than square footage. We look at your layout, insulation, and how you use the space so the system we install or repair actually fits your house.',
+        'From new installs to same-day repairs and seasonal tune-ups, we keep the job site clean and walk you through what we are doing. No surprises when we leave.',
+        'Whether you are replacing an old unit, fixing a breakdown, or keeping a solid system maintained, we work for quiet operation, good efficiency, and reliable cooling in San Diego heat.',
       ],
       expectations: [
         {
-          title: 'Honest sizing',
+          title: 'Honest sizing and diagnosis',
           description:
-            'We recommend what your home needs. Not a bigger unit than necessary, and not one that will struggle on hot days.',
+            'We recommend what your home needs. Not a bigger unit than necessary, and not a repair that will not last.',
         },
         {
-          title: 'Clean install',
+          title: 'Clean install and service',
           description:
             'We protect your floors and work areas, handle equipment carefully, and leave the job site tidy.',
         },
@@ -74,7 +89,7 @@ export const services: readonly Service[] = [
             'We show you the thermostat, filters, and basic upkeep so you know how to run the system from day one.',
         },
         {
-          title: 'Available after install',
+          title: 'Available after the visit',
           description:
             'Questions after we leave? Call us. We stand behind the work we do in your home.',
         },
@@ -85,23 +100,23 @@ export const services: readonly Service[] = [
       },
       beneficiaries: [
         'Homeowners replacing an old or unreliable AC',
-        'New residents who need cooling sized for San Diego summers',
-        'Families who want quieter, more even cooling',
-        'Property managers coordinating residential installs',
+        'Families dealing with weak cooling or a sudden breakdown',
+        'Anyone who wants quieter, more even cooling',
+        'Property managers coordinating residential AC work',
       ],
       closing: [
-        'Thinking about a new AC? Request a free estimate. We will look at your home, lay out your options, and give you a straight answer. No pressure.',
+        'Need AC install, repair, or maintenance? Request a free estimate. We will look at your home, lay out your options, and give you a straight answer. No pressure.',
       ],
     },
   },
   {
-    id: 'heating-repair',
-    label: 'Heating Repair',
-    href: '/services/heating-repair',
-    estimateSubject: 'Heating Repair',
-    icon: PiFlameFill,
+    id: 'heating',
+    label: 'Heating',
+    href: '/services/heating',
+    estimateSubject: 'Heating',
+    icon: PiFireFill,
     description:
-      'Heating repair when you need it. We find the problem, explain your options in plain English, and get your heat back on without the runaround.',
+      'Heating installation, repair, and maintenance when you need it. We find the problem, explain your options in plain English, and get your heat working right.',
     images: [
       {
         src: '/images/hero-bg-2.png',
@@ -114,15 +129,15 @@ export const services: readonly Service[] = [
     ],
     detail: {
       about: [
-        'When the heat goes out, you want a straight answer, not a sales pitch. We inspect the system, find what failed, and tell you what it takes to fix it so you can decide with confidence.',
-        'Ignition problems, airflow issues, thermostat trouble, safety concerns. We have seen it all and we fix it the right way.',
+        'When the heat goes out or a system needs replacing, you want a straight answer, not a sales pitch. We inspect the system, find what failed or what fits your home, and tell you what it takes so you can decide with confidence.',
+        'Ignition problems, airflow issues, thermostat trouble, and full furnace or heat pump installs. We have seen it all and we do the work the right way.',
         'We treat your home with respect, keep you in the loop during the visit, and make sure the heat is working before we go.',
       ],
       expectations: [
         {
           title: 'Clear diagnosis',
           description:
-            'We tell you what broke, why it matters, and what the repair involves. Up front, before any work starts.',
+            'We tell you what broke, why it matters, and what the repair or install involves. Up front, before any work starts.',
         },
         {
           title: 'Fair options',
@@ -146,23 +161,23 @@ export const services: readonly Service[] = [
       },
       beneficiaries: [
         'Homeowners with no heat or cold spots in the house',
-        'Families who need a fast, trustworthy repair',
+        'Families who need a fast, trustworthy repair or new install',
         'Anyone hearing strange noises or smelling burning dust at startup',
         'Property managers coordinating heating service calls',
       ],
       closing: [
-        'Heat not working or acting up? Request a free estimate and we will help you figure out the next step to get your home warm again.',
+        'Heat not working or ready for a new system? Request a free estimate and we will help you figure out the next step to get your home warm again.',
       ],
     },
   },
   {
-    id: 'ac-maintenance',
-    label: 'AC Maintenance',
-    href: '/services/ac-maintenance',
-    estimateSubject: 'Maintenance / Tune-Up',
-    icon: PiWrenchFill,
+    id: 'mini-split-systems',
+    label: 'Mini Split Systems',
+    href: '/services/mini-split-systems',
+    estimateSubject: 'Mini Split Systems',
+    icon: PiWindFill,
     description:
-      'Seasonal tune-ups to keep your AC running quiet and cool. We catch small problems before they turn into expensive breakdowns.',
+      'Ductless mini split installation, repair, and maintenance. Zone cooling and heating for rooms that central HVAC cannot reach well.',
     images: [
       {
         src: '/images/hero-bg.png',
@@ -175,166 +190,233 @@ export const services: readonly Service[] = [
     ],
     detail: {
       about: [
-        'A tune-up once or twice a year is the easiest way to avoid a breakdown in the middle of summer. We clean, check, and adjust the system so it runs cooler and uses less energy.',
-        'This is more than swapping a filter. We inspect the parts that wear out, check airflow, and make sure everything is ready before the hot months hit.',
-        'Whether you stay on schedule every year or it has been a while, our maintenance visits are thorough and we explain what we find in plain terms.',
+        'Mini splits are a smart fit for additions, garages, rooms without ducts, or homes that need different temperatures in different zones. We size and place each head so comfort is even and the outdoor unit stays quiet.',
+        'We install new ductless systems, repair existing ones, and keep them maintained so they cool and heat efficiently year-round.',
+        'From single-zone setups to multi-head systems, you get clean installs, clear guidance on how to use the remotes or app, and service that stands behind the work.',
       ],
       expectations: [
         {
-          title: 'Full system check',
+          title: 'Right-sized zones',
           description:
-            'We review performance, airflow, electrical connections, and safety. Not just a quick look and a filter change.',
+            'We match capacity and placement to the rooms you actually use, not a one-size guess.',
         },
         {
-          title: 'Efficiency tune-up',
+          title: 'Clean line-set work',
           description:
-            'Cleaning and adjustments that help your AC cool better without running up your electric bill.',
+            'Neat refrigerant lines, proper drainage, and outdoor placement that respects your property.',
         },
         {
-          title: 'Catch problems early',
+          title: 'Install, repair, and maintain',
           description:
-            'We flag worn parts and small issues before they leave you without AC on the hottest day of the year.',
+            'New systems, leak and sensor repairs, and seasonal checkups so your mini splits stay reliable.',
         },
         {
-          title: 'Simple tips for between visits',
+          title: 'How-to walkthrough',
           description:
-            'Filter schedule and a few habits that keep your system running smooth between tune-ups.',
+            'We show you modes, filters, and basic care so each zone stays comfortable without guesswork.',
         },
       ],
       quote: {
-        text: 'Seasonal tune-up made a real difference. Quieter system, lower bills, and no surprise breakdowns this summer.',
-        author: 'Andre C., La Mesa',
+        text: 'They put mini splits in our bonus room and guest suite. Quiet, efficient, and finally cool where the central AC never reached.',
+        author: 'Luis G., Encinitas',
       },
       beneficiaries: [
-        'Homeowners getting ready for San Diego summer heat',
-        'Families who want fewer emergency repair calls',
-        'Anyone noticing weak airflow or a higher electric bill',
-        'Property managers scheduling regular maintenance',
+        'Homeowners finishing additions or rooms without ducts',
+        'Families who want room-by-room temperature control',
+        'Anyone with a failing or noisy ductless system that needs repair',
+        'Property managers adding efficient cooling to select units',
       ],
       closing: [
-        'Want to stay ahead of breakdowns? Request a free estimate for AC maintenance and we will help you get on a tune-up schedule that fits your system.',
+        'Considering mini splits or need service on one you already have? Request a free estimate and we will map out the right install or repair for your space.',
       ],
     },
   },
   {
-    id: 'furnace-repair',
-    label: 'Furnace Repair',
-    href: '/services/furnace-repair',
-    estimateSubject: 'Heating Repair',
-    icon: PiFanFill,
+    id: 'quiet-cool-installation',
+    label: 'Quiet Cool Installation',
+    href: '/services/quiet-cool-installation',
+    estimateSubject: 'Quiet Cool Installation',
+    icon: PiArrowsClockwiseFill,
     description:
-      'Furnace repair to get your heat back on safely. Ignition issues, airflow problems, and everything in between. We fix it and we explain what we did.',
+      'QuietCool whole-house fan installation. Efficient, reliable, and professionally installed to pull cool evening air through your home.',
     images: [
       {
         src: '/images/hero-bg-mobile-2.png',
-        alt: 'HVAC technician inspecting furnace and duct equipment',
+        alt: 'HVAC technician inspecting attic and duct equipment',
       },
       {
         src: '/images/hero-bg-2.png',
-        alt: 'Professional heating system service',
+        alt: 'Professional home comfort system service',
       },
     ],
     detail: {
       about: [
-        'Furnace trouble shows up in different ways. Cold rooms, short cycling, weird noises, or a burner that will not stay lit. We track down the cause, tell you what we found, and fix it with safety first.',
-        'We handle ignition, sensors, airflow, and control issues every week. If a repair is the right call, we do it. If something bigger is going on, we will say so.',
-        'You get owner-operated service, clean work, and a furnace that heats your home reliably again.',
+        'QuietCool whole-house fans move hot attic air out and pull cooler outdoor air in through open windows. On many San Diego evenings, that means less AC runtime and lower bills without sacrificing comfort.',
+        'We handle professional QuietCool installation from attic prep to controls, with an eye on noise, sealing, and how the fan works with your existing HVAC.',
+        'Efficient, reliable, and installed the right way so you get the airflow QuietCool is known for without drafts, rattles, or guesswork.',
       ],
       expectations: [
         {
-          title: 'Safety first',
+          title: 'Efficient cooling assist',
           description:
-            'We check for safe operation and tell you plainly if something needs attention.',
+            'A properly sized QuietCool fan can cut AC use on mild nights while keeping rooms comfortable.',
         },
         {
-          title: 'Targeted repairs',
+          title: 'Reliable install',
           description:
-            'We fix the actual problem. Ignition, airflow, controls. No unnecessary parts or upsells.',
+            'Secure mounting, correct ducting or dampering, and controls that are easy to run day to day.',
         },
         {
-          title: 'Respect for your home',
+          title: 'Professional workmanship',
           description:
-            'Clean work habits and careful access around your living spaces and utility areas.',
+            'Clean attic access, tidy wiring, and finishes that respect your home and roof space.',
+        },
+        {
+          title: 'Clear operating tips',
+          description:
+            'We explain when to run the fan, when to stick with AC, and how to get the most from the system.',
+        },
+      ],
+      quote: {
+        text: 'QuietCool install was smooth and the house cools down fast in the evenings. Wish we had done it years ago.',
+        author: 'Sandra K., Escondido',
+      },
+      beneficiaries: [
+        'Homeowners looking to lower summer cooling costs',
+        'Families who want fresher evening air without blasting the AC',
+        'Anyone with a stuffy upstairs that heats up after sundown',
+        'Homeowners ready for a QuietCool upgrade done professionally',
+      ],
+      closing: [
+        'Ready for QuietCool? Request a free estimate and we will confirm fit for your attic and home, then install it cleanly and professionally.',
+      ],
+    },
+  },
+  {
+    id: 'service-repairs',
+    label: 'Service & Repairs',
+    href: '/services/service-repairs',
+    estimateSubject: 'Service & Repairs',
+    icon: PiWrenchFill,
+    description:
+      'Service and repairs for all makes and models. We diagnose the issue, explain your options, and fix it without the runaround.',
+    images: [
+      {
+        src: '/images/hero-bg.png',
+        alt: 'Technician performing HVAC service and repair',
+      },
+      {
+        src: '/images/about-hvac.png',
+        alt: 'Residential HVAC unit being serviced outdoors',
+      },
+    ],
+    detail: {
+      about: [
+        'When something is not cooling, heating, or running right, you need a clear diagnosis and a fair repair. We service all makes and models and tell you what failed before any work starts.',
+        'Strange noises, short cycling, weak airflow, error codes, and systems that will not start. We track down the cause and fix it the right way.',
+        'Whether your equipment is brand new or years old, you get owner-operated service, clean work, and a system that works again when we leave.',
+      ],
+      expectations: [
+        {
+          title: 'All makes and models',
+          description:
+            'We work across common residential brands and system types. No runaround if it is not a brand we sell.',
+        },
+        {
+          title: 'Straight diagnosis',
+          description:
+            'We explain what broke, what it costs to fix, and whether repair or replacement makes more sense.',
+        },
+        {
+          title: 'Careful repairs',
+          description:
+            'Parts and adjustments that solve the actual problem. No unnecessary upsells.',
         },
         {
           title: 'Verified before we leave',
           description:
-            'We run the furnace and confirm heat output so you are not left wondering if it actually works.',
+            'We run the system and confirm performance so you are not left wondering if it actually works.',
         },
       ],
       quote: {
-        text: 'They fixed our furnace the same week it failed, explained the part that went out, and left everything clean. Highly recommend.',
+        text: 'They fixed our system the same week it failed, explained the part that went out, and left everything clean. Highly recommend.',
         author: 'Maria S., Oceanside',
       },
       beneficiaries: [
-        'Homeowners with a furnace that will not start or stay running',
-        'Families dealing with uneven heat or the system turning on and off too often',
-        'Anyone worried about furnace safety or unusual smells',
-        'Landlords and property managers who need dependable furnace service',
+        'Homeowners with AC or heat that will not start or stay running',
+        'Families dealing with uneven comfort or frequent cycling',
+        'Anyone with an older system that still deserves a fair repair',
+        'Landlords and property managers who need dependable service calls',
       ],
       closing: [
-        'Furnace giving you trouble? Request a free estimate and we will walk you through the repair so your home gets back to steady heat.',
+        'System acting up? Request a free estimate and we will walk you through the repair so your home gets back to steady comfort.',
       ],
     },
   },
   {
-    id: 'indoor-air-quality',
-    label: 'Indoor Air Quality',
-    href: '/services/indoor-air-quality',
-    estimateSubject: 'General Inquiry',
-    icon: PiSparkleFill,
+    id: 'new-installations',
+    label: 'New Installations',
+    href: '/services/new-installations',
+    estimateSubject: 'New Installations',
+    icon: PiHouseFill,
     description:
-      'Better air at home with filtration upgrades, duct work, and humidity control. Less dust, fewer allergens, and air that actually feels fresh.',
+      'High efficiency system installs sized for your home. Clean workmanship, clear options, and equipment built for San Diego comfort.',
     images: [
       {
-        src: '/images/indoor-air-quality.png',
-        alt: 'Indoor air quality and filtration equipment for a healthier home',
+        src: '/images/indoor-ac.png',
+        alt: 'Indoor air conditioning unit ready for installation',
       },
       {
-        src: '/images/about-hvac.png',
-        alt: 'Home comfort system supporting cleaner indoor air',
+        src: '/images/indoor-ac-repaired.png',
+        alt: 'Newly installed indoor air conditioning unit',
+        objectPosition: 'object-[center_70%]',
       },
     ],
+    cardImage: {
+      src: '/images/indoor-ac-repaired.png',
+      alt: 'Newly installed indoor air conditioning unit',
+      objectPosition: 'object-[center_70%]',
+    },
     detail: {
       about: [
-        'Dusty rooms, allergies acting up, stale air, humidity that swings too high or too low. Your HVAC system plays a big role in all of it, and we can help you improve what you breathe at home.',
-        'We will not sell you gadgets you do not need. We look at your system, listen to what is bothering you, and recommend what will actually make a difference for your household.',
-        'Cleaner air, more comfortable rooms, and solutions that work with the equipment you already have. That is the goal.',
+        'A new HVAC system is a long-term decision. We size for your home, compare efficiency options that fit your budget, and install with care so the equipment performs the way it should.',
+        'From removing the old unit to startup and walkthrough, we keep the job organized and explain what you are getting. No mystery line items.',
+        'High efficiency systems that cool and heat evenly, run quieter, and are installed for years of reliable use in San Diego County homes.',
       ],
       expectations: [
         {
-          title: 'Honest recommendations',
+          title: 'High efficiency options',
           description:
-            'Solutions matched to your home and system. Not a sales catalog of add-ons you do not need.',
+            'We present equipment that fits your home and goals, with clear talk about efficiency, noise, and cost.',
         },
         {
-          title: 'Filtration and airflow',
+          title: 'Proper sizing',
           description:
-            'Upgrades and adjustments that cut down on dust, allergens, and stuffy rooms.',
+            'Right-sized equipment so you get comfort without short cycling or wasted energy.',
         },
         {
-          title: 'Humidity guidance',
+          title: 'Clean replacement',
           description:
-            'When moisture control will make your home more comfortable, we will tell you and explain your options.',
+            'Careful removal of old equipment, protected floors, and a tidy finish when the new system is in.',
         },
         {
-          title: 'Clear priorities',
+          title: 'Startup and support',
           description:
-            'You leave knowing what will help most right now and what can wait.',
+            'We commission the system, show you the controls, and stay available if questions come up after install.',
         },
       ],
       quote: {
-        text: 'Less dust, fresher air, and they never pushed us into extras we did not need. Exactly the kind of help we wanted.',
-        author: 'Priya N., Carlsbad',
+        text: 'New high-efficiency system installed on schedule. Quieter than our old unit, and the team never pushed us into extras.',
+        author: 'James T., Carlsbad',
       },
       beneficiaries: [
-        'Households dealing with dust, allergens, or stuffy rooms',
-        'Families with kids or guests who are sensitive to indoor air',
-        'Homeowners upgrading filtration on an existing HVAC system',
-        'Anyone who wants straight advice before buying air quality products',
+        'Homeowners replacing aging or failing HVAC equipment',
+        'New residents who need a system sized for San Diego summers',
+        'Families upgrading to quieter, more efficient comfort',
+        'Property managers coordinating residential replacements',
       ],
       closing: [
-        'Want cleaner air at home? Request a free estimate and we will recommend practical improvements that fit your space and budget.',
+        'Ready for a new system? Request a free estimate. We will assess your home, compare high efficiency options, and give you a straight install plan.',
       ],
     },
   },
@@ -342,6 +424,10 @@ export const services: readonly Service[] = [
 
 export function getServiceById(id: string): Service | undefined {
   return services.find((service) => service.id === id)
+}
+
+export function serviceCardImage(service: Service): ServiceImage {
+  return service.cardImage ?? service.images[0]
 }
 
 export function serviceEstimateHref(service: Service) {

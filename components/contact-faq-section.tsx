@@ -14,7 +14,7 @@ const serviceFaqs = [
   {
     question: 'What services do you offer?',
     answer:
-      'AC installation and repair, heating and furnace repair, seasonal maintenance and tune-ups, and indoor air quality help for homes across San Diego County.',
+      'Air conditioning, heating, mini split systems, QuietCool installation, service and repairs for all makes and models, and new high-efficiency installs for homes across San Diego County.',
   },
   {
     question: 'How quickly can you come out?',

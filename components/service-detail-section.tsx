@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { HiArrowRight, HiCheck, HiStar } from 'react-icons/hi2'
-import { serviceEstimateHref, type Service } from '@/lib/services'
+import { serviceCardImage, serviceEstimateHref, type Service } from '@/lib/services'
+import { cn } from '@/lib/utils'
 
 type ServiceDetailSectionProps = {
   service: Service
@@ -10,6 +11,7 @@ type ServiceDetailSectionProps = {
 export default function ServiceDetailSection({ service }: ServiceDetailSectionProps) {
   const Icon = service.icon
   const estimateHref = serviceEstimateHref(service)
+  const cardImage = serviceCardImage(service)
 
   return (
     <section className="page-top bg-white pb-20 lg:pb-28">
@@ -116,10 +118,10 @@ export default function ServiceDetailSection({ service }: ServiceDetailSectionPr
               <div className="overflow-hidden rounded-[1.5rem] bg-brand-light shadow-[0_12px_40px_rgba(17,24,39,0.08)] ring-1 ring-border/50">
                 <div className="relative aspect-[16/10] overflow-hidden">
                   <Image
-                    src={service.images[0].src}
-                    alt={service.images[0].alt}
+                    src={cardImage.src}
+                    alt={cardImage.alt}
                     fill
-                    className="object-cover"
+                    className={cn('object-cover', cardImage.objectPosition)}
                     sizes="(max-width: 1024px) 100vw, 360px"
                     priority
                   />

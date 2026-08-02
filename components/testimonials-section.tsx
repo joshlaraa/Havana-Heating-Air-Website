@@ -54,9 +54,9 @@ const testimonials = [
   },
   {
     quote:
-      'Seasonal tune-up made a real difference. Quieter system, lower bills, and no surprise breakdowns this summer.',
-    city: 'La Mesa',
-    author: 'Andre C.',
+      'They put mini splits in our bonus room and guest suite. Quiet, efficient, and finally cool where the central AC never reached.',
+    city: 'Encinitas',
+    author: 'Luis G.',
     source: 'Google' as const,
   },
 ]

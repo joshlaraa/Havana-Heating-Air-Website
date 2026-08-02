@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title,
   description,
   keywords:
-    'HVAC, heating, air conditioning, AC repair, furnace installation, Havana Heating and Air, Escondido',
+    'HVAC, heating, air conditioning, mini split, QuietCool, service and repairs, new installations, Havana Heating and Air, Escondido',
   applicationName: 'Havana Heating and Air',
   authors: [{ name: 'Havana Heating and Air' }],
   creator: 'Havana Heating and Air',

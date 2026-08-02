@@ -29,11 +29,12 @@ const socials = [
 ]
 
 const subjectOptions = [
-  { value: 'AC Repair', label: 'AC Repair' },
-  { value: 'Heating Repair', label: 'Heating Repair' },
-  { value: 'New Installation', label: 'New Installation' },
-  { value: 'Maintenance / Tune-Up', label: 'Maintenance / Tune-Up' },
-  { value: 'Emergency Service', label: 'Emergency Service' },
+  { value: 'Air Conditioning', label: 'Air Conditioning' },
+  { value: 'Heating', label: 'Heating' },
+  { value: 'Mini Split Systems', label: 'Mini Split Systems' },
+  { value: 'Quiet Cool Installation', label: 'Quiet Cool Installation' },
+  { value: 'Service & Repairs', label: 'Service & Repairs' },
+  { value: 'New Installations', label: 'New Installations' },
   { value: 'General Inquiry', label: 'General Inquiry' },
   { value: 'Other', label: 'Other' },
 ]
@@ -160,7 +161,7 @@ export default function ContactSection() {
           </h1>
 
           <p className="mb-8 max-w-sm text-sm leading-relaxed text-white/70">
-            Need a repair, install, or tune-up? Send a message or call. We will get back to you with
+            Need a repair, install, or QuietCool setup? Send a message or call. We will get back to you with
             a clear plan and a free estimate.
           </p>
 
