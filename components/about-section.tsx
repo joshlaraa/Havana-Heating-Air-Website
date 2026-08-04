@@ -2,7 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { HiCheck } from 'react-icons/hi2'
 import { PiArrowUpRightBold } from 'react-icons/pi'
-import SanDiegoMapPoster from '@/components/san-diego-map-poster'
 
 const features = [
   'Year-round heating and cooling you can trust',
@@ -37,7 +36,13 @@ export default function AboutSection({ showAboutCta = true }: AboutSectionProps)
             </div>
 
             <div className="relative aspect-[3/4] overflow-hidden rounded-[0.75rem_0.75rem_2.75rem_0.75rem] lg:row-span-2 lg:aspect-auto lg:min-h-[22rem] lg:rounded-[1rem_1rem_5.5rem_1rem]">
-              <SanDiegoMapPoster />
+              <Image
+                src="/images/osiel-owner.png"
+                alt="Havana Heating and Air branded service van"
+                fill
+                className="object-cover object-[center_30%]"
+                sizes="(max-width: 1024px) 45vw, 280px"
+              />
             </div>
 
             <div className="col-span-2 rounded-2xl bg-ink px-5 py-3.5 text-center text-white sm:px-6 sm:py-4 lg:col-span-1">

@@ -180,14 +180,18 @@ export const services: readonly Service[] = [
       'Ductless mini split installation, repair, and maintenance. Zone cooling and heating for rooms that central HVAC cannot reach well.',
     images: [
       {
-        src: '/images/hero-bg.png',
-        alt: 'Technician performing air conditioning maintenance',
+        src: '/images/mini-split-installation.png',
+        alt: 'Wall-mounted ductless mini split indoor unit installed in a bedroom',
       },
       {
-        src: '/images/about-hvac.png',
-        alt: 'Residential HVAC unit being serviced outdoors',
+        src: '/images/mini-split-installation-2.png',
+        alt: 'Vertical mini split indoor unit installed on a grey interior wall',
       },
     ],
+    cardImage: {
+      src: '/images/mini-split-installation.png',
+      alt: 'Wall-mounted ductless mini split indoor unit installed in a bedroom',
+    },
     detail: {
       about: [
         'Mini splits are a smart fit for additions, garages, rooms without ducts, or homes that need different temperatures in different zones. We size and place each head so comfort is even and the outdoor unit stays quiet.',
@@ -241,14 +245,18 @@ export const services: readonly Service[] = [
       'QuietCool whole-house fan installation. Efficient, reliable, and professionally installed to pull cool evening air through your home.',
     images: [
       {
-        src: '/images/hero-bg-mobile-2.png',
-        alt: 'HVAC technician inspecting attic and duct equipment',
+        src: '/images/quiet-installation.png',
+        alt: 'QuietCool whole-house fan installed in an attic with insulated ducting',
       },
       {
         src: '/images/hero-bg-2.png',
         alt: 'Professional home comfort system service',
       },
     ],
+    cardImage: {
+      src: '/images/quiet-installation.png',
+      alt: 'QuietCool whole-house fan installed in an attic with insulated ducting',
+    },
     detail: {
       about: [
         'QuietCool whole-house fans move hot attic air out and pull cooler outdoor air in through open windows. On many San Diego evenings, that means less AC runtime and lower bills without sacrificing comfort.',
