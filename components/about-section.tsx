@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { HiCheck } from 'react-icons/hi2'
+import { HiArrowRight, HiCheck } from 'react-icons/hi2'
 import { PiArrowUpRightBold } from 'react-icons/pi'
 
 const features = [
-  'Year-round heating and cooling you can trust',
-  'Installs, repairs, and maintenance done right',
-  'Owner-operated service with clear, honest pricing',
+  'AC, heating, mini splits, and QuietCool under one roof',
+  'Clean installs and repairs that respect your home',
+  'Clear pricing before we start, no pressure to upsell',
 ]
 
 type AboutSectionProps = {
@@ -46,9 +46,11 @@ export default function AboutSection({ showAboutCta = true }: AboutSectionProps)
             </div>
 
             <div className="col-span-2 rounded-2xl bg-ink px-5 py-3.5 text-center text-white sm:px-6 sm:py-4 lg:col-span-1">
-              <p className="font-heading text-2xl font-bold leading-none sm:text-3xl">Cuban</p>
-              <p className="mt-1 text-xs font-medium leading-snug text-white/80 sm:text-sm">
-                Owned &amp; Operated
+              <p className="font-heading flex items-center justify-center gap-2 text-lg font-bold leading-snug sm:text-xl">
+                <span>Cuba</span>
+                <HiArrowRight className="size-4 shrink-0 text-brand-red sm:size-5" aria-hidden="true" />
+                <span>California</span>
+                <span className="sr-only">from Cuba to California</span>
               </p>
             </div>
           </div>
@@ -74,11 +76,17 @@ export default function AboutSection({ showAboutCta = true }: AboutSectionProps)
             Comfort you can count on, from a team that shows up
           </h2>
 
-          <p className="body-lead mb-8 max-w-lg">
-            We named the company after Havana, Cuba. That same hospitality and hard work go into
-            every home we serve. When San Diego heats up, we keep your place cool, comfortable, and
-            taken care of.
-          </p>
+          <div className="body-lead mb-8 flex max-w-lg flex-col gap-4">
+            <p>
+              Havana Heating &amp; Air was built on hard work, integrity, and a commitment to
+              treating every customer like family. We believe every home deserves dependable
+              comfort, honest service, and workmanship that stands the test of time.
+            </p>
+            <p>
+              We don&apos;t just install heating and air conditioning systems. We build lasting
+              relationships through quality work and genuine care.
+            </p>
+          </div>
 
           <ul className={`flex flex-col gap-4 ${showAboutCta ? 'mb-10' : ''}`}>
             {features.map((feature) => (

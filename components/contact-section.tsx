@@ -23,7 +23,11 @@ const socials = [
     href: 'https://www.yelp.com/biz/havana-heating-and-air-escondido-2',
     icon: FaYelp,
   },
-  { label: 'Google Reviews', href: '#', icon: FaGoogle },
+  {
+    label: 'Google Reviews',
+    href: 'https://share.google/SHPH4x6kVhjwamZOk',
+    icon: FaGoogle,
+  },
   { label: 'Instagram', href: 'https://www.instagram.com/havanaheatingandair', icon: FaInstagram },
   { label: 'Facebook', href: '#', icon: FaFacebookF },
 ]

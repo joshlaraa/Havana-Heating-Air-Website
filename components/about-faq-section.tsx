@@ -4,32 +4,32 @@ const aboutFaqs = [
   {
     question: 'Who owns Havana Heating and Air?',
     answer:
-      'Osiel owns and runs Havana Heating and Air. He is Cuban-owned and operated, and he shows up for every job with honest work and clear communication.',
+      'Osiel Garcia. He owns the company and he is usually the one who answers the phone, walks the job, and does the work.',
   },
   {
     question: 'Are you a licensed HVAC contractor?',
     answer:
-      'Yes. We are freshly licensed and we stand behind every job. You get real accountability from the owner, not a runaround from a call center.',
+      'Yes. We are licensed in California and we stand behind the work we leave in your home.',
   },
   {
     question: 'What does “freshly licensed with field experience” mean?',
     answer:
-      'Osiel spent years working HVAC in the field before opening Havana. Now he runs his own licensed company, so you get hands-on skill and owner-level care on every visit.',
+      'Osiel worked HVAC jobs for years before he opened Havana. The license is newer. The hands on experience is not.',
   },
   {
     question: 'Where do you provide service?',
     answer:
-      'We serve homes across San Diego County and nearby areas. That includes installs, repairs, and seasonal maintenance.',
+      'Homes across San Diego County and nearby cities. Installs, repairs, and tune ups.',
   },
   {
     question: 'Why the name Havana?',
     answer:
-      'The company is named after Havana, Cuba. It reflects the hospitality and hard work Osiel brings into every home. We keep your place cool when it is hot outside, and comfortable year-round.',
+      'It is named after Havana, Cuba. That is where Osiel\'s story starts, and he wanted the company name to carry that with it.',
   },
   {
     question: 'What can I expect when I work with you?',
     answer:
-      'A straight diagnosis, fair pricing, clean work, and follow-through. We explain your options clearly so you can decide with confidence. No pressure and no runaround.',
+      'We look at the system, tell you what we found in plain language, give you a price, and do the job clean. If something needs a follow up, you know who to call.',
   },
 ] as const
 
@@ -38,7 +38,7 @@ export default function AboutFaqSection() {
     <FaqSection
       id="about-faq"
       title="Questions about Havana"
-      description="Quick answers about who we are, how we work, and what to expect when you call."
+      description="A few straight answers about who we are and how a visit usually goes."
       faqs={aboutFaqs}
       className="bg-white"
     />

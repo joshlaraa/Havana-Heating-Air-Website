@@ -193,10 +193,22 @@ export default function TestimonialsSection() {
                       {item.author}
                     </cite>
                     <p className="mt-0.5 text-xs text-ink-muted">{item.city}</p>
-                    <p className="mt-1 flex items-center gap-1.5 text-xs text-ink-faint">
-                      <SourceIcon size={11} aria-hidden="true" />
-                      {item.source}
-                    </p>
+                    {item.source === 'Google' ? (
+                      <a
+                        href="https://share.google/SHPH4x6kVhjwamZOk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-1 flex items-center gap-1.5 text-xs text-ink-faint transition-colors hover:text-ink"
+                      >
+                        <SourceIcon size={11} aria-hidden="true" />
+                        {item.source}
+                      </a>
+                    ) : (
+                      <p className="mt-1 flex items-center gap-1.5 text-xs text-ink-faint">
+                        <SourceIcon size={11} aria-hidden="true" />
+                        {item.source}
+                      </p>
+                    )}
                   </footer>
                 </blockquote>
               )

@@ -14,19 +14,19 @@ const pillars: {
     title: 'Our Story',
     icon: PiHandshake,
     description:
-      'Named after Havana and built on Cuban hospitality, we bring hard work and dependable HVAC care to every home we serve in San Diego County.',
+      'Osiel came from Cuba and built this business in California. The name Havana is a nod to where he started, and to showing up for people the same way family would.',
   },
   {
     title: 'Our Mission',
     icon: PiHouseLine,
     description:
-      'Keep your family comfortable with honest installs, careful repairs, and service you can trust when summer heat or winter cold hits.',
+      'Fix what is broken, install what fits your house, and leave you with a system that works when San Diego weather gets rough.',
   },
   {
     title: 'What Sets Us Apart',
     icon: PiSealCheck,
     description:
-      'Freshly licensed with real field experience. Owner-operated, clear communication, and workmanship that treats your home with respect.',
+      'Years in the field before the license on the wall. You deal with the owner, get plain answers, and know who is accountable if something needs follow up.',
   },
 ]
 

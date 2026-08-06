@@ -231,27 +231,19 @@ function analyticsSection(traffic: SiteTrafficSnapshot | null) {
   `
 }
 
-export function buildLeadEmail(
-  payload: LeadPayload,
-  traffic: SiteTrafficSnapshot | null = null
-) {
-  const isHero = payload.source === 'hero'
-  const title = isHero ? 'New estimate request' : 'New contact message'
-  const sourceLabel = isHero ? 'Homepage estimate form' : 'Contact page'
-  const subject = isHero
-    ? `New estimate request: ${payload.serviceType.trim()}`
-    : `New contact message: ${payload.subject.trim()}`
-  const replyTo = isHero ? undefined : payload.email.trim()
-  const accentLabel = isHero ? 'Free estimate' : 'Contact inquiry'
-
-  const html = `
+function emailShell(options: {
+  title: string
+  sourceLabel: string
+  bodyRows: string
+}) {
+  return `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light" />
-  <title>${escapeHtml(title)}</title>
+  <title>${escapeHtml(options.title)}</title>
   <!--[if !mso]><!-->
   <link href="https://api.fontshare.com/v2/css?f[]=switzer@700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
   <!--<![endif]-->
@@ -267,13 +259,52 @@ export function buildLeadEmail(
                 Havana Heating and Air
               </p>
               <h1 style="margin:0;font-family:${FONT_HEADING};font-size:24px;line-height:1.25;color:${BRAND.inkSecondary};font-weight:700;">
-                ${escapeHtml(title)}
+                ${escapeHtml(options.title)}
               </h1>
               <p style="margin:10px 0 0;font-family:${FONT_SANS};font-size:14px;line-height:1.5;color:${BRAND.inkMuted};">
-                ${escapeHtml(sourceLabel)}
+                ${escapeHtml(options.sourceLabel)}
               </p>
             </td>
           </tr>
+          ${options.bodyRows}
+          <tr>
+            <td style="padding:0 32px 28px;font-family:${FONT_SANS};font-size:12px;line-height:1.5;color:${BRAND.inkFaint};">
+              Havana Heating and Air · San Diego County · 909.235.0771
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`
+}
+
+function pacificDateLabel(date = new Date()) {
+  return new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/Los_Angeles',
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  }).format(date)
+}
+
+export function buildLeadEmail(
+  payload: LeadPayload,
+  traffic: SiteTrafficSnapshot | null = null
+) {
+  const isHero = payload.source === 'hero'
+  const title = isHero ? 'New estimate request' : 'New contact message'
+  const sourceLabel = isHero ? 'Homepage estimate form' : 'Contact page'
+  const subject = isHero
+    ? `New estimate request: ${payload.serviceType.trim()}`
+    : `New contact message: ${payload.subject.trim()}`
+  const replyTo = isHero ? undefined : payload.email.trim()
+  const accentLabel = isHero ? 'Free estimate' : 'Contact inquiry'
+
+  const bodyRows = `
           <tr>
             <td style="padding:28px 32px 8px;">
               <span style="display:inline-block;padding:6px 12px;border-radius:999px;background:${BRAND.light};font-family:${FONT_SANS};font-size:12px;font-weight:600;color:${BRAND.inkMuted};">
@@ -290,18 +321,39 @@ export function buildLeadEmail(
           </tr>
           ${contactActions(payload)}
           ${analyticsSection(traffic)}
+  `
+
+  return {
+    subject,
+    replyTo,
+    html: emailShell({ title, sourceLabel, bodyRows }),
+  }
+}
+
+/** Daily traffic-only email — same snapshot block as lead emails. */
+export function buildDailyTrafficEmail(
+  traffic: SiteTrafficSnapshot | null = null
+) {
+  const dateLabel = pacificDateLabel()
+  const title = 'Daily site traffic'
+  const sourceLabel = dateLabel
+  const subject = traffic
+    ? `Daily site traffic: ${formatCount(traffic.pageviews7d)} views this week`
+    : `Daily site traffic — ${dateLabel}`
+
+  const bodyRows = `
           <tr>
-            <td style="padding:0 32px 28px;font-family:${FONT_SANS};font-size:12px;line-height:1.5;color:${BRAND.inkFaint};">
-              Havana Heating and Air · San Diego County · 909.235.0771
+            <td style="padding:28px 32px 8px;">
+              <span style="display:inline-block;padding:6px 12px;border-radius:999px;background:${BRAND.light};font-family:${FONT_SANS};font-size:12px;font-weight:600;color:${BRAND.inkMuted};">
+                Daily report
+              </span>
             </td>
           </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>
-`
+          ${analyticsSection(traffic)}
+  `
 
-  return { subject, replyTo, html }
+  return {
+    subject,
+    html: emailShell({ title, sourceLabel, bodyRows }),
+  }
 }
