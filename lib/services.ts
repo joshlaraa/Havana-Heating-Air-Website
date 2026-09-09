@@ -119,12 +119,12 @@ export const services: readonly Service[] = [
       'Heating installation, repair, and maintenance when you need it. We find the problem, explain your options in plain English, and get your heat working right.',
     images: [
       {
-        src: '/images/hero-bg-2.png',
-        alt: 'Technician servicing heating and cooling equipment',
+        src: '/images/heating.png',
+        alt: 'Technician servicing a heating and cooling unit',
       },
       {
-        src: '/images/hero-bg-mobile.png',
-        alt: 'Close-up of HVAC service work in progress',
+        src: '/images/heating-wires.png',
+        alt: 'Close-up of heating wires being repaired',
       },
     ],
     detail: {
@@ -249,8 +249,8 @@ export const services: readonly Service[] = [
         alt: 'QuietCool whole-house fan installed in an attic with insulated ducting',
       },
       {
-        src: '/images/hero-bg-2.png',
-        alt: 'Professional home comfort system service',
+        src: '/images/quiet.png',
+        alt: 'Quiet outdoor condenser unit installed beside a home',
       },
     ],
     cardImage: {
@@ -310,14 +310,18 @@ export const services: readonly Service[] = [
       'Service and repairs for all makes and models. We diagnose the issue, explain your options, and fix it without the runaround.',
     images: [
       {
-        src: '/images/hero-bg.png',
-        alt: 'Technician performing HVAC service and repair',
+        src: '/images/repair.png',
+        alt: 'Outdoor AC condenser being diagnosed and charged with digital manifold gauges',
       },
       {
-        src: '/images/about-hvac.png',
-        alt: 'Residential HVAC unit being serviced outdoors',
+        src: '/images/service.png',
+        alt: 'Technician holding a dual-run capacitor during HVAC repair',
       },
     ],
+    cardImage: {
+      src: '/images/repair.png',
+      alt: 'Outdoor AC condenser being diagnosed and charged with digital manifold gauges',
+    },
     detail: {
       about: [
         'When something is not cooling, heating, or running right, you need a clear diagnosis and a fair repair. We service all makes and models and tell you what failed before any work starts.',

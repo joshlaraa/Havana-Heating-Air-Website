@@ -2,35 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import {
-  FaFacebookF,
-  FaYelp,
-  FaGoogle,
-  FaInstagram,
-  FaPhone,
-  FaLocationDot,
-  FaEnvelope,
-} from 'react-icons/fa6'
+import { FaPhone, FaLocationDot, FaEnvelope } from 'react-icons/fa6'
 import { HiCheckCircle } from 'react-icons/hi2'
 import AnimatedSelect from '@/components/ui/animated-select'
 import FormSubmitSlot from '@/components/ui/form-submit-slot'
 import { services } from '@/lib/services'
+import { socials } from '@/lib/socials'
 import { cn } from '@/lib/utils'
-
-const socials = [
-  {
-    label: 'Yelp',
-    href: 'https://www.yelp.com/biz/havana-heating-and-air-escondido-2',
-    icon: FaYelp,
-  },
-  {
-    label: 'Google Reviews',
-    href: 'https://share.google/SHPH4x6kVhjwamZOk',
-    icon: FaGoogle,
-  },
-  { label: 'Instagram', href: 'https://www.instagram.com/havanaheatingandair', icon: FaInstagram },
-  { label: 'Facebook', href: '#', icon: FaFacebookF },
-]
 
 const subjectOptions = [
   { value: 'Air Conditioning', label: 'Air Conditioning' },
@@ -175,6 +153,8 @@ export default function ContactSection() {
                 key={label}
                 href={href}
                 aria-label={label}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-white/50 hover:bg-white/10"
               >
                 <Icon size={15} />

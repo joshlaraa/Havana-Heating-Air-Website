@@ -1,36 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import {
-  FaFacebookF,
-  FaYelp,
-  FaGoogle,
-  FaInstagram,
-  FaPhone,
-  FaLocationDot,
-  FaEnvelope,
-} from 'react-icons/fa6'
+import { FaPhone, FaLocationDot, FaEnvelope } from 'react-icons/fa6'
 import { services } from '@/lib/services'
+import { socials } from '@/lib/socials'
 
 const topLinks = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about-us' },
   { label: 'Services', href: '/services' },
   { label: 'Contact', href: '/contact' },
-]
-
-const socials = [
-  {
-    label: 'Yelp',
-    href: 'https://www.yelp.com/biz/havana-heating-and-air-escondido-2',
-    icon: FaYelp,
-  },
-  {
-    label: 'Google Reviews',
-    href: 'https://share.google/SHPH4x6kVhjwamZOk',
-    icon: FaGoogle,
-  },
-  { label: 'Instagram', href: 'https://www.instagram.com/havanaheatingandair', icon: FaInstagram },
-  { label: 'Facebook', href: '#', icon: FaFacebookF },
 ]
 
 export default function Footer() {
@@ -70,6 +48,8 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-white text-ink-secondary transition-all duration-200 hover:border-ink hover:text-ink"
                 >
                   <Icon size={15} />

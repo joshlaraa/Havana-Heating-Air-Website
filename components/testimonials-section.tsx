@@ -13,6 +13,7 @@ import {
 import { HiStar } from 'react-icons/hi2'
 import { FaGoogle, FaYelp, FaInstagram, FaFacebook } from 'react-icons/fa6'
 import type { IconType } from 'react-icons'
+import { googleReviewsUrl } from '@/lib/socials'
 
 type ReviewSource = 'Google' | 'Yelp' | 'Instagram' | 'Facebook'
 
@@ -195,7 +196,7 @@ export default function TestimonialsSection() {
                     <p className="mt-0.5 text-xs text-ink-muted">{item.city}</p>
                     {item.source === 'Google' ? (
                       <a
-                        href="https://share.google/SHPH4x6kVhjwamZOk"
+                        href={googleReviewsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-1 flex items-center gap-1.5 text-xs text-ink-faint transition-colors hover:text-ink"
