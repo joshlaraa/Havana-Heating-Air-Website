@@ -41,23 +41,23 @@ const jobSites = [
 const testimonials = [
   {
     quote:
-      'Our new AC was installed cleanly and quickly. The house stays cool even on the hottest days, and the team explained every step.',
-    city: 'Chula Vista',
-    author: 'Daniel R.',
+      'Osiel and crew are top notch. I would trust them with any job, big or small.',
+    city: 'San Diego',
+    author: 'Trace Garrett',
     source: 'Google' as const,
   },
   {
     quote:
-      'Same-day heating repair when our furnace went out. Honest diagnosis, fair pricing, and the house was warm again by evening.',
-    city: 'El Cajon',
-    author: 'Heather M.',
-    source: 'Yelp' as const,
+      'Exceptional service and the best price out of 3 quotes. Fast response, knowledgeable install, and excellent results.',
+    city: 'San Diego',
+    author: 'Karen Bass',
+    source: 'Google' as const,
   },
   {
     quote:
-      'They put mini splits in our bonus room and guest suite. Quiet, efficient, and finally cool where the central AC never reached.',
-    city: 'Encinitas',
-    author: 'Luis G.',
+      'Osiel is absolutely amazing. He’s been to my house 4 times now for furnaces, condensers, maintenance, and repairs…',
+    city: 'San Diego',
+    author: 'Kyle Stoner',
     source: 'Google' as const,
   },
 ]
@@ -178,7 +178,7 @@ export default function TestimonialsSection() {
               const SourceIcon = sourceIcons[item.source]
 
               return (
-                <blockquote key={item.city} className="flex flex-col">
+                <blockquote key={item.author} className="flex flex-col">
                   <div className="mb-4 flex items-center gap-0.5" aria-label="5 out of 5 stars">
                     {Array.from({ length: 5 }).map((_, i) => (
                       <HiStar key={i} size={16} className="fill-amber-400 text-amber-400" />
