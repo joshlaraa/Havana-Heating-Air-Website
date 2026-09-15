@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { HiArrowRight, HiCheckCircle, HiStar } from 'react-icons/hi2'
 import AnimatedSelect from '@/components/ui/animated-select'
+import CertificationsStrip from '@/components/certifications-strip'
 import FormSubmitSlot from '@/components/ui/form-submit-slot'
 import { cn } from '@/lib/utils'
 
@@ -102,7 +103,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center overflow-hidden bg-white"
+      className="relative flex min-h-screen flex-col overflow-hidden bg-white"
     >
       {/* Background image: full bleed */}
       <div className="absolute inset-0 z-0">
@@ -123,8 +124,8 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/25 to-transparent" />
       </div>
 
-      <div className="container-site page-top relative z-10 pb-24 lg:pb-28">
-        <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-8">
+      <div className="container-site page-top relative z-10 flex flex-1 items-center pb-10 lg:pb-12">
+        <div className="flex w-full flex-col items-center gap-12 lg:flex-row lg:gap-8">
 
           {/* LEFT COLUMN */}
           <div className="min-w-0 flex-1">
@@ -164,7 +165,7 @@ export default function Hero() {
               or request a free estimate and we will get back to you quickly.
             </p>
 
-            <div className="mb-10 flex flex-col gap-4 sm:flex-row">
+            <div className="flex flex-col gap-4 sm:flex-row">
               <Link href="/contact" className="btn-primary shadow-lg hover:shadow-xl">
                 Get a Free Estimate
                 <HiArrowRight size={16} />
@@ -178,11 +179,11 @@ export default function Hero() {
 
           {/* RIGHT COLUMN: Request Form Card */}
           <div className="w-full lg:w-[400px] flex-shrink-0">
-            <div className="relative z-20 overflow-visible bg-white rounded-2xl p-7 shadow-2xl border border-black/5">
+            <div className="relative z-20 overflow-visible rounded-2xl border border-black/5 bg-white p-7 shadow-2xl">
               <h2 className="heading-card mb-1.5 text-center">
                 Get a Free Estimate
               </h2>
-              <p className="text-ink-muted text-sm text-center mb-6">
+              <p className="mb-6 text-center text-sm text-ink-muted">
                 Tell us what you need. We will follow up shortly.
               </p>
 
@@ -272,6 +273,11 @@ export default function Hero() {
           </div>
 
         </div>
+      </div>
+
+      {/* Full-width cert band under the form */}
+      <div className="relative z-10 mt-auto">
+        <CertificationsStrip tone="onDark" variant="band" />
       </div>
     </section>
   )
