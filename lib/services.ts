@@ -120,7 +120,7 @@ export const services: readonly Service[] = [
     images: [
       {
         src: '/images/heating.png',
-        alt: 'Technician servicing a heating and cooling unit',
+        alt: 'Newly installed furnace with Havana Heating and Air service sticker',
       },
       {
         src: '/images/heating-wires.png',
