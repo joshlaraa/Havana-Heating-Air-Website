@@ -1,16 +1,15 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useState } from 'react'
 import { FaPhone, FaLocationDot, FaEnvelope } from 'react-icons/fa6'
 import { HiCheckCircle } from 'react-icons/hi2'
 import AnimatedSelect from '@/components/ui/animated-select'
 import FormSubmitSlot from '@/components/ui/form-submit-slot'
-import { services } from '@/lib/services'
 import { socials } from '@/lib/socials'
 import { cn } from '@/lib/utils'
 
 const subjectOptions = [
+  { value: 'Financing', label: 'Financing' },
   { value: 'Air Conditioning', label: 'Air Conditioning' },
   { value: 'Heating', label: 'Heating' },
   { value: 'Mini Split Systems', label: 'Mini Split Systems' },
@@ -21,13 +20,9 @@ const subjectOptions = [
   { value: 'Other', label: 'Other' },
 ]
 
-const subjectValues = new Set(subjectOptions.map((option) => option.value))
-const serviceLabels = new Set(services.map((service) => service.label))
-
 const fieldClass = 'field-input'
 
 export default function ContactSection() {
-  const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -41,27 +36,6 @@ export default function ContactSection() {
   const [pending, setPending] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [formKey, setFormKey] = useState(0)
-
-  useEffect(() => {
-    const subjectParam = searchParams.get('subject') ?? ''
-    const serviceParam = searchParams.get('service') ?? ''
-    const nextSubject = subjectValues.has(subjectParam) ? subjectParam : ''
-    const nextService =
-      serviceLabels.has(serviceParam) && serviceParam.length <= 80
-        ? serviceParam
-        : ''
-    const nextMessage = nextService
-      ? `I'm interested in a free estimate for ${nextService}.`
-      : ''
-
-    if (!nextSubject && !nextMessage) return
-
-    setFormData((prev) => ({
-      ...prev,
-      subject: nextSubject || prev.subject,
-      message: nextMessage || prev.message,
-    }))
-  }, [searchParams])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -143,8 +117,8 @@ export default function ContactSection() {
           </h1>
 
           <p className="mb-8 max-w-sm text-sm leading-relaxed text-white/70">
-            Need a repair, install, or QuietCool setup? Send a message or call. We will get back to you with
-            a clear plan and a free estimate.
+            Need a repair, install, QuietCool setup, or financing information? Send a message or call.
+            We will get back to you with a clear plan and a free estimate.
           </p>
 
           <div className="mb-12 flex items-center gap-3">

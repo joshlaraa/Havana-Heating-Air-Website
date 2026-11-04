@@ -14,18 +14,28 @@ export default function EstimateCtaSection() {
           pricing for San Diego County.
         </p>
 
-        <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
-          <Link href="/contact" className="btn-primary">
-            Get a Free Estimate
-            <HiArrowRight size={16} />
-          </Link>
-          <a
-            href="tel:9092350771"
-            className="inline-flex items-center gap-2 text-sm font-medium text-white/75 transition-colors duration-200 hover:text-white"
+        <div className="mt-8 flex flex-col items-center">
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
+            <Link href="/contact" className="btn-primary">
+              Get a Free Estimate
+              <HiArrowRight size={16} />
+            </Link>
+            <a
+              href="tel:9092350771"
+              className="inline-flex items-center gap-2 text-sm font-medium text-white/75 transition-colors duration-200 hover:text-white"
+            >
+              <FaPhone size={13} aria-hidden="true" />
+              Call 909.235.0771
+            </a>
+          </div>
+          <Link
+            href="/contact"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-medium text-white/85 transition-colors duration-200 hover:border-white/40 hover:bg-white/10 hover:text-white"
           >
-            <FaPhone size={13} aria-hidden="true" />
-            Call 909.235.0771
-          </a>
+            Need payment flexibility?
+            <span className="text-white/60">Ask about financing</span>
+            <HiArrowRight size={14} aria-hidden="true" />
+          </Link>
         </div>
       </div>
     </section>

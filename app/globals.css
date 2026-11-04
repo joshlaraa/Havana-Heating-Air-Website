@@ -188,6 +188,12 @@
   animation-iteration-count: infinite;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .map-marker-ripple {
+    animation: none;
+  }
+}
+
 /* Soft pastel autofill (Apple-style) — unlayered so it beats Chrome's blue.
    Clears automatically when the user edits the field. */
 input:autofill,

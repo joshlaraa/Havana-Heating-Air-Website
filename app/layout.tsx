@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
+import FinancingToast from '@/components/financing-toast'
 import './globals.css'
 
 const siteUrl =
@@ -56,6 +57,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <Navbar />
         {children}
+        <FinancingToast />
         <Footer />
         <Analytics />
       </body>
