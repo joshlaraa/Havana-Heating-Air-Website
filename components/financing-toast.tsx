@@ -55,7 +55,7 @@ export default function FinancingToast() {
           : 'pointer-events-none translate-y-4 scale-95 opacity-0 motion-reduce:translate-y-0 motion-reduce:scale-100'
       }`}
     >
-      <div className="relative rounded-2xl border border-black/5 bg-white/95 p-4 pr-12 shadow-[0_12px_32px_rgba(17,24,39,0.18)] backdrop-blur-xl">
+      <div className="relative rounded-2xl border border-black/5 bg-white p-4 pr-12">
         <button
           type="button"
           aria-label="Dismiss financing message"
