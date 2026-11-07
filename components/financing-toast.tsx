@@ -49,7 +49,7 @@ export default function FinancingToast() {
     <aside
       role="status"
       aria-live="polite"
-      className={`fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-[60] w-[min(19.5rem,calc(100vw-2rem))] origin-bottom-right transition-[opacity,transform] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-opacity ${
+      className={`fixed bottom-4 right-4 z-[60] w-[min(19.5rem,calc(100vw-2rem))] origin-bottom-right transition-[opacity,transform] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-opacity ${
         open
           ? 'translate-y-0 scale-100 opacity-100'
           : 'pointer-events-none translate-y-4 scale-95 opacity-0 motion-reduce:translate-y-0 motion-reduce:scale-100'
