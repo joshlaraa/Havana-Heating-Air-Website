@@ -14,28 +14,26 @@ export default function EstimateCtaSection() {
           pricing for San Diego County.
         </p>
 
-        <div className="mt-8 flex flex-col items-center">
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
-            <Link href="/contact" className="btn-primary">
+        <div className="mt-8 flex w-full flex-col items-center">
+          <div className="flex w-full max-w-xs flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:justify-center sm:gap-4">
+            <Link href="/contact" className="btn-primary shadow-lg hover:shadow-xl">
               Get a Free Estimate
               <HiArrowRight size={16} />
             </Link>
-            <a
-              href="tel:9092350771"
-              className="inline-flex items-center gap-2 text-sm font-medium text-white/75 transition-colors duration-200 hover:text-white"
-            >
+            <a href="tel:9092350771" className="btn-secondary">
               <FaPhone size={13} aria-hidden="true" />
               Call 909.235.0771
             </a>
           </div>
-          <Link
-            href="/contact"
-            className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-5 py-3 text-sm font-medium text-white/85 transition-colors duration-200 hover:border-white/40 hover:bg-white/10 hover:text-white"
-          >
-            Need payment flexibility?
-            <span className="text-white/60">Ask about financing</span>
-            <HiArrowRight size={14} aria-hidden="true" />
-          </Link>
+          <p className="mt-6 text-sm text-white/65">
+            Need payment flexibility?{' '}
+            <Link
+              href="/contact"
+              className="font-medium text-white underline underline-offset-4 decoration-white/40 transition-colors duration-200 hover:decoration-white"
+            >
+              Ask about financing
+            </Link>
+          </p>
         </div>
       </div>
     </section>

@@ -28,7 +28,7 @@ export default function FinancingToast() {
       window.requestAnimationFrame(() => setOpen(true))
       dismissTimer = window.setTimeout(() => {
         setOpen(false)
-        window.setTimeout(() => setMounted(false), 220)
+        window.setTimeout(() => setMounted(false), 350)
       }, 10000)
     }, 500)
 
@@ -40,7 +40,7 @@ export default function FinancingToast() {
 
   function dismiss() {
     setOpen(false)
-    window.setTimeout(() => setMounted(false), 220)
+    window.setTimeout(() => setMounted(false), 350)
   }
 
   if (!mounted) return null
@@ -49,18 +49,20 @@ export default function FinancingToast() {
     <aside
       role="status"
       aria-live="polite"
-      className={`fixed bottom-[calc(0.75rem+env(safe-area-inset-bottom))] right-3 z-[60] w-[calc(100%-1.5rem)] max-w-[22rem] transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none sm:bottom-6 sm:right-6 sm:max-w-[25rem] ${
-        open ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
+      className={`fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-[60] w-[min(19.5rem,calc(100vw-2rem))] origin-bottom-right transition-[opacity,transform] duration-[350ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-opacity ${
+        open
+          ? 'translate-y-0 scale-100 opacity-100'
+          : 'pointer-events-none translate-y-4 scale-95 opacity-0 motion-reduce:translate-y-0 motion-reduce:scale-100'
       }`}
     >
-      <div className="relative rounded-[1rem] border border-black/10 bg-white px-4 py-3 pr-10 shadow-[0_8px_24px_rgba(17,24,39,0.14)]">
+      <div className="relative rounded-2xl border border-black/5 bg-white/95 p-4 pr-12 shadow-[0_12px_32px_rgba(17,24,39,0.18)] backdrop-blur-xl">
         <button
           type="button"
           aria-label="Dismiss financing message"
           onClick={dismiss}
-          className="absolute right-3 top-3 rounded-full p-1.5 text-ink-faint transition-colors duration-200 hover:bg-brand-light hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
+          className="absolute right-1.5 top-1.5 flex h-9 w-9 items-center justify-center rounded-full text-ink-faint transition-colors duration-200 hover:bg-brand-light hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-red"
         >
-          <HiXMark size={18} aria-hidden="true" />
+          <HiXMark size={16} aria-hidden="true" />
         </button>
 
         <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-brand-red">
@@ -72,7 +74,7 @@ export default function FinancingToast() {
         <p className="mt-0.5 text-xs leading-relaxed text-ink-muted">
           Ask about options for your HVAC project.
         </p>
-        <div className="mt-2">
+        <div className="mt-3">
           <Link
             href="/contact"
             onClick={dismiss}
