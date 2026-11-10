@@ -95,9 +95,16 @@ export async function generateInvoicePdf(invoice: Invoice) {
   page.drawText(`-${money.format(invoice.totals.discount)}`, { x: 490, y: summaryY - 18, size: 9, font: regular, color: dark })
   page.drawText('Tax', { x: summaryX, y: summaryY - 36, size: 9, font: regular, color: muted })
   page.drawText(money.format(invoice.totals.tax), { x: 490, y: summaryY - 36, size: 9, font: regular, color: dark })
-  page.drawRectangle({ x: summaryX - 10, y: summaryY - 72, width: 160, height: 27, color: primary })
+  page.drawRectangle({ x: summaryX - 10, y: summaryY - 72, width: 210, height: 27, color: primary })
   page.drawText('TOTAL', { x: summaryX, y: summaryY - 62, size: 10, font: bold, color: rgb(1, 1, 1) })
-  page.drawText(money.format(invoice.totals.total), { x: 490, y: summaryY - 62, size: 10, font: bold, color: rgb(1, 1, 1) })
+  const totalText = money.format(invoice.totals.total)
+  page.drawText(totalText, {
+    x: summaryX + 190 - bold.widthOfTextAtSize(totalText, 10),
+    y: summaryY - 62,
+    size: 10,
+    font: bold,
+    color: rgb(1, 1, 1),
+  })
   page.drawText(`Payment status: ${invoice.paymentStatus}`, { x: 56, y: summaryY - 18, size: 9, font: bold, color: dark })
   page.drawText(`Payment method: ${invoice.paymentMethod}`, { x: 56, y: summaryY - 36, size: 9, font: regular, color: muted })
   page.drawText('NOTES / TERMS', { x: 56, y: 126, size: 8, font: bold, color: primary })

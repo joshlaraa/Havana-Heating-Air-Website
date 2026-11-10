@@ -53,8 +53,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-white">
       <body className="font-sans antialiased">
-        <SiteChrome />
         {children}
+        <SiteChrome />
         <Analytics />
       </body>
     </html>
