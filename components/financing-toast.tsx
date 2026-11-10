@@ -2,15 +2,18 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { HiArrowRight, HiXMark } from 'react-icons/hi2'
 
 const STORAGE_KEY = 'havana-financing-toast-seen'
 
 export default function FinancingToast() {
+  const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
+    if (pathname.startsWith('/admin')) return
     try {
       if (window.sessionStorage.getItem(STORAGE_KEY)) return
     } catch {
@@ -36,14 +39,14 @@ export default function FinancingToast() {
       window.clearTimeout(timer)
       if (dismissTimer) window.clearTimeout(dismissTimer)
     }
-  }, [])
+  }, [pathname])
 
   function dismiss() {
     setOpen(false)
     window.setTimeout(() => setMounted(false), 350)
   }
 
-  if (!mounted) return null
+  if (pathname.startsWith('/admin') || !mounted) return null
 
   return (
     <aside

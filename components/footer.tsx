@@ -1,5 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { FaPhone, FaLocationDot, FaEnvelope } from 'react-icons/fa6'
 import { services } from '@/lib/services'
 import { socials } from '@/lib/socials'
@@ -12,6 +15,9 @@ const topLinks = [
 ]
 
 export default function Footer() {
+  const pathname = usePathname()
+  if (pathname.startsWith('/admin')) return null
+
   return (
     <footer className="bg-brand-light">
       <div className="container-site pt-16 pb-10 lg:pt-20">
