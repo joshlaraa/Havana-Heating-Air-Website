@@ -2,7 +2,9 @@ import { NextResponse } from 'next/server'
 import { generateInvoicePdf } from '@/lib/invoice-pdf'
 import { getInvoiceService } from '@/lib/business'
 import { isAdminAuthenticated } from '@/lib/admin-auth'
-import { paymentMethods, paymentStatuses, type Invoice, type InvoiceInput } from '@/lib/invoice-types'
+import { saveDocument } from '@/lib/documents'
+import { isSupabaseConfigured } from '@/lib/supabase'
+import { estimateStatuses, paymentMethods, paymentStatuses, type DocType, type Invoice, type InvoiceInput } from '@/lib/invoice-types'
 
 function validDate(value: unknown): value is string {
   return typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(new Date(`${value}T00:00:00Z`).getTime())
@@ -12,7 +14,7 @@ function cleanNumber(value: unknown): value is number {
   return typeof value === 'number' && Number.isFinite(value)
 }
 
-function validateInput(body: unknown): InvoiceInput | string {
+function validateInput(body: unknown, type: DocType): InvoiceInput | string {
   if (!body || typeof body !== 'object') return 'A valid invoice payload is required.'
   const input = body as Partial<InvoiceInput>
   if (typeof input.customerName !== 'string' || !input.customerName.trim()) return 'Customer name is required.'
@@ -21,7 +23,8 @@ function validateInput(body: unknown): InvoiceInput | string {
   if (!validDate(input.invoiceDate) || !validDate(input.dueDate)) return 'Invoice and due dates must be valid.'
   if (new Date(`${input.dueDate}T00:00:00Z`) < new Date(`${input.invoiceDate}T00:00:00Z`)) return 'Due date cannot be before invoice date.'
   if (!Array.isArray(input.items) || input.items.length < 1) return 'At least one service is required.'
-  if (!paymentStatuses.includes(input.paymentStatus as (typeof paymentStatuses)[number])) return 'Invalid payment status.'
+  const statuses: readonly string[] = type === 'estimate' ? estimateStatuses : paymentStatuses
+  if (!statuses.includes(input.paymentStatus as string)) return 'Invalid status.'
   if (!paymentMethods.includes(input.paymentMethod as (typeof paymentMethods)[number])) return 'Invalid payment method.'
   const discount = input.discount
   const tax = input.tax
@@ -53,15 +56,27 @@ function validateInput(body: unknown): InvoiceInput | string {
 export async function POST(request: Request) {
   if (!(await isAdminAuthenticated())) return NextResponse.json({ error: 'Administrator authentication required.' }, { status: 401 })
   try {
-    const result = validateInput(await request.json())
+    const body = await request.json()
+    const type: DocType = body?.type === 'estimate' ? 'estimate' : 'invoice'
+    const result = validateInput(body, type)
     if (typeof result === 'string') return NextResponse.json({ error: result }, { status: 400 })
     const subtotal = result.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0)
     const discount = Math.min(result.discount, subtotal)
     const total = Math.max(0, subtotal - discount + result.tax)
     const invoice: Invoice = {
       ...result,
-      invoiceNumber: `INV-${result.invoiceDate.replaceAll('-', '')}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`,
+      docType: type,
+      invoiceNumber: `${type === 'estimate' ? 'EST' : 'INV'}-${result.invoiceDate.replaceAll('-', '')}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`,
       totals: { subtotal, discount, tax: result.tax, total },
+    }
+    let documentId = ''
+    if (isSupabaseConfigured()) {
+      try {
+        documentId = (await saveDocument(invoice)).id
+      } catch (error) {
+        console.error('Failed to save document', error)
+        return NextResponse.json({ error: 'Could not save to the database. Nothing was created.' }, { status: 500 })
+      }
     }
     const bytes = await generateInvoicePdf(invoice)
     return new NextResponse(bytes as BodyInit, {
@@ -69,6 +84,7 @@ export async function POST(request: Request) {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `inline; filename="${invoice.invoiceNumber}.pdf"`,
         'X-Invoice-Number': invoice.invoiceNumber,
+        'X-Document-Id': documentId,
         'Cache-Control': 'no-store',
       },
     })

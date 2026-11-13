@@ -1,6 +1,10 @@
 export const paymentStatuses = ['unpaid', 'partial', 'paid', 'overdue'] as const
 export const paymentMethods = ['cash', 'check', 'card', 'bank-transfer', 'other'] as const
 
+export const estimateStatuses = ['draft', 'sent', 'accepted', 'declined', 'expired'] as const
+export type DocType = 'invoice' | 'estimate'
+export type EstimateStatus = (typeof estimateStatuses)[number]
+
 export type InvoiceStatus = (typeof paymentStatuses)[number]
 export type PaymentMethod = (typeof paymentMethods)[number]
 
@@ -33,7 +37,9 @@ export type InvoiceTotals = {
   total: number
 }
 
-export type Invoice = InvoiceInput & {
+export type Invoice = Omit<InvoiceInput, 'paymentStatus'> & {
+  docType?: DocType
+  paymentStatus: InvoiceStatus | EstimateStatus
   invoiceNumber: string
   totals: InvoiceTotals
 }

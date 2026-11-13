@@ -1,0 +1,35 @@
+import { redirect } from 'next/navigation'
+import Link from 'next/link'
+import { business, invoiceServices } from '@/lib/business'
+import { clearAdminSession, isAdminAuthenticated } from '@/lib/admin-auth'
+import InvoiceForm from '@/components/invoice-form'
+import AdminNav from '@/components/admin-nav'
+
+export default async function AdminEstimatesPage() {
+  if (!(await isAdminAuthenticated())) redirect('/admin/login')
+  async function logout() {
+    'use server'
+    await clearAdminSession()
+    redirect('/admin/login')
+  }
+  const btn = 'inline-flex h-11 items-center justify-center rounded-[14px] bg-ink/[0.07] px-5 text-[15px] font-medium tracking-tight text-ink transition active:scale-[0.98] active:opacity-80'
+  return (
+    <main className="min-h-screen overflow-x-hidden bg-brand-light px-4 py-6 sm:px-8 sm:py-10 lg:px-12">
+      <div className="mx-auto w-full min-w-0 max-w-7xl">
+        <AdminNav active="estimates" />
+        <div className="mb-6 flex flex-col justify-between gap-4 sm:mb-10 sm:flex-row sm:items-end">
+          <div>
+            <p className="eyebrow mb-3">Administrator workspace</p>
+            <h1 className="heading-display">Create an estimate</h1>
+            <p className="body-lead mt-4 max-w-2xl">Quote a job for {business.name}. When the customer says yes, convert it to an invoice from the Documents tab.</p>
+          </div>
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
+            <Link href="/" className={btn}>Back to home</Link>
+            <form action={logout} className="contents"><button className={btn}>Sign out</button></form>
+          </div>
+        </div>
+        <InvoiceForm services={invoiceServices} type="estimate" />
+      </div>
+    </main>
+  )
+}

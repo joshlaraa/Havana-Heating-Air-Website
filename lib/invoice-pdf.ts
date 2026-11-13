@@ -49,10 +49,11 @@ export async function generateInvoicePdf(invoice: Invoice) {
   page.drawText(business.address, { x: 114, y: height - 84, size: 9, font: regular, color: muted })
   page.drawText(business.phone, { x: 114, y: height - 98, size: 9, font: regular, color: muted })
   page.drawText(business.email, { x: 114, y: height - 112, size: 9, font: regular, color: muted })
-  page.drawText('INVOICE', { x: 406, y: height - 66, size: 26, font: bold, color: primary })
+  const isEstimate = invoice.docType === 'estimate'
+  page.drawText(isEstimate ? 'ESTIMATE' : 'INVOICE', { x: 406, y: height - 66, size: 26, font: bold, color: primary })
   page.drawText(invoice.invoiceNumber, { x: 407, y: height - 84, size: 10, font: bold, color: dark })
-  page.drawText(`Invoice date: ${date(invoice.invoiceDate)}`, { x: 407, y: height - 101, size: 9, font: regular, color: muted })
-  page.drawText(`Due date: ${date(invoice.dueDate)}`, { x: 407, y: height - 115, size: 9, font: regular, color: muted })
+  page.drawText(`${isEstimate ? 'Estimate' : 'Invoice'} date: ${date(invoice.invoiceDate)}`, { x: 407, y: height - 101, size: 9, font: regular, color: muted })
+  page.drawText(`${isEstimate ? 'Valid until' : 'Due date'}: ${date(invoice.dueDate)}`, { x: 407, y: height - 115, size: 9, font: regular, color: muted })
 
   y = height - 150
   page.drawRectangle({ x: 42, y: y - 56, width: width - 84, height: 56, color: light })
@@ -105,8 +106,13 @@ export async function generateInvoicePdf(invoice: Invoice) {
     font: bold,
     color: rgb(1, 1, 1),
   })
-  page.drawText(`Payment status: ${invoice.paymentStatus}`, { x: 56, y: summaryY - 18, size: 9, font: bold, color: dark })
-  page.drawText(`Payment method: ${invoice.paymentMethod}`, { x: 56, y: summaryY - 36, size: 9, font: regular, color: muted })
+  if (isEstimate) {
+    page.drawText('This is an estimate, not a bill.', { x: 56, y: summaryY - 18, size: 9, font: bold, color: dark })
+    page.drawText('Final price may change if the scope of work changes.', { x: 56, y: summaryY - 36, size: 9, font: regular, color: muted })
+  } else {
+    page.drawText(`Payment status: ${invoice.paymentStatus}`, { x: 56, y: summaryY - 18, size: 9, font: bold, color: dark })
+    page.drawText(`Payment method: ${invoice.paymentMethod}`, { x: 56, y: summaryY - 36, size: 9, font: regular, color: muted })
+  }
   page.drawText('NOTES / TERMS', { x: 56, y: 126, size: 8, font: bold, color: primary })
   drawWrapped(page, invoice.notes || 'Thank you for choosing Havana Heating and Air.', 56, 110, 280, regular, 9, muted)
   page.drawText(business.website.replace(/^https?:\/\//, ''), { x: 42, y: 34, size: 8, font: regular, color: muted })

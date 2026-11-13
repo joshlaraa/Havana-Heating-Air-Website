@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { business, invoiceServices } from '@/lib/business'
 import { clearAdminSession, isAdminAuthenticated } from '@/lib/admin-auth'
 import InvoiceForm from '@/components/invoice-form'
+import AdminNav from '@/components/admin-nav'
 
 export default async function AdminInvoicesPage() {
   if (!(await isAdminAuthenticated())) redirect('/admin/login')
@@ -14,6 +15,7 @@ export default async function AdminInvoicesPage() {
   return (
     <main className="min-h-screen overflow-x-hidden bg-brand-light px-4 py-6 sm:px-8 sm:py-10 lg:px-12">
       <div className="mx-auto w-full min-w-0 max-w-7xl">
+      <AdminNav active="invoices" />
       <div className="mb-6 flex flex-col justify-between gap-4 sm:mb-10 sm:gap-5 sm:flex-row sm:items-end">
         <div><p className="eyebrow mb-3">Administrator workspace</p><h1 className="heading-display">Create an invoice</h1><p className="body-lead mt-4 max-w-2xl">Generate a professional PDF using {business.name} branding and the configured HVAC service catalog.</p></div>
         <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
