@@ -4,7 +4,8 @@ import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AnimatedSelect from '@/components/ui/animated-select'
 import DatePicker, { toDateString } from '@/components/ui/date-picker'
-import { MoneyInput, NumberInput, actionPrimary } from '@/components/ui/form-bits'
+import { MoneyInput, NumberInput, SaveButton, useSaveStatus } from '@/components/ui/form-bits'
+import ReceiptViewer from '@/components/receipt-viewer'
 import { expenseCategories, materialCategories, money, paymentMethodsExpense, type ExpenseRow } from '@/lib/books-shared'
 
 const fmt = (v: string) => new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }).format(new Date(`${v}T00:00:00Z`))
@@ -34,7 +35,9 @@ export default function ExpenseManager({ rows, year, lastOdometer, mpg }: { rows
   const [gallons, setGallons] = useState('')
   const [odometer, setOdometer] = useState('')
   const [fileName, setFileName] = useState('')
-  const [loading, setLoading] = useState(false)
+  const save = useSaveStatus()
+  const [viewing, setViewing] = useState<ExpenseRow | null>(null)
+  const [preview, setPreview] = useState('')
   const [error, setError] = useState('')
   const [moneyKey, setMoneyKey] = useState(0)
   const [filter, setFilter] = useState('All')
@@ -51,14 +54,17 @@ export default function ExpenseManager({ rows, year, lastOdometer, mpg }: { rows
     event.preventDefault()
     setError('')
     if (!amount) { setError('Enter the amount.'); return }
-    setLoading(true)
+    save.start()
     const form = new FormData()
     Object.entries({ date, category, paymentMethod: method, amount: String(amount), vendor, notes, gallons, odometer, salesTax: showTax ? String(salesTax) : '' }).forEach(([k, v]) => form.set(k, v))
     const file = fileRef.current?.files?.[0]
-    if (file) form.set('receipt', await shrink(file), 'receipt.jpg')
-    const res = await fetch('/api/admin/expenses', { method: 'POST', body: form })
-    setLoading(false)
-    if (!res.ok) { setError((await res.json().catch(() => null))?.error ?? 'Could not save.'); return }
+    if (file) {
+      try { form.set('receipt', await shrink(file), 'receipt.jpg') } catch { save.fail(); setError('Could not read that photo. Try taking it again.'); return }
+    }
+    const res = await fetch('/api/admin/expenses', { method: 'POST', body: form }).catch(() => null)
+    if (!res || !res.ok) { save.fail(); setError((await res?.json().catch(() => null))?.error ?? 'Could not save. Check your connection and try again.'); return }
+    save.succeed()
+    setPreview('')
     setAmount(0); setSalesTax(0); setVendor(''); setNotes(''); setGallons(''); setOdometer(''); setFileName(''); setMoneyKey((k) => k + 1)
     if (fileRef.current) fileRef.current.value = ''
     router.refresh()
@@ -85,12 +91,21 @@ export default function ExpenseManager({ rows, year, lastOdometer, mpg }: { rows
           <label className="col-span-2 text-sm font-medium">Notes<input className="field-input mt-2" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Optional" /></label>
         </div>
         <div>
-          <input ref={fileRef} id="receipt" type="file" accept="image/*" capture="environment" className="sr-only" onChange={(e) => setFileName(e.target.files?.[0]?.name ?? '')} />
+          <input ref={fileRef} id="receipt" type="file" accept="image/*" capture="environment" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; setFileName(f?.name ?? ''); setPreview((old) => { if (old) URL.revokeObjectURL(old); return f ? URL.createObjectURL(f) : '' }) }} />
           <label htmlFor="receipt" className="inline-flex h-11 cursor-pointer items-center rounded-[14px] bg-ink/[0.07] px-5 text-[15px] font-medium text-ink transition active:scale-[0.98]">{fileName ? 'Change receipt photo' : 'Add receipt photo'}</label>
-          {fileName && <span className="ml-3 text-xs text-ink-muted">{fileName}</span>}
+          {preview && (
+            <div className="mt-3 flex items-center gap-3 rounded-xl bg-green-50 p-2 pr-4 ring-1 ring-green-200">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={preview} alt="Receipt preview" className="h-14 w-14 rounded-lg object-cover" />
+              <span className="flex items-center gap-1.5 text-sm font-medium text-green-800">
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#16a34a" /><path d="M7.5 12.5l3 3 6-6.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                Receipt attached
+              </span>
+            </div>
+          )}
         </div>
         {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700" role="alert">{error}</p>}
-        <button className={actionPrimary} disabled={loading}>{loading ? 'Saving…' : 'Save expense'}</button>
+        <SaveButton status={save.status} idle="Save expense" saving={fileName ? 'Uploading receipt…' : 'Saving…'} done="Saved" />
       </form>
 
       <div className="grid grid-cols-2 gap-3">
@@ -120,12 +135,13 @@ export default function ExpenseManager({ rows, year, lastOdometer, mpg }: { rows
               <p className="font-heading text-base font-bold">{money.format(r.amount)}</p>
             </div>
             <div className="mt-3 flex gap-4 text-xs font-medium">
-              {r.receipt_path && <a className="text-brand-red" href={`/api/admin/expenses/${r.id}/receipt`} target="_blank" rel="noreferrer">View receipt</a>}
+              {r.receipt_path && <button className="text-brand-red" onClick={() => setViewing(r)}>View receipt</button>}
               <button className="text-ink-muted hover:text-brand-red" onClick={() => remove(r.id)}>Delete</button>
             </div>
           </li>
         ))}
       </ul>
+      {viewing && <ReceiptViewer id={viewing.id} title={`${viewing.vendor || viewing.category} · ${fmt(viewing.expense_date)}`} onClose={() => setViewing(null)} />}
     </div>
   )
 }

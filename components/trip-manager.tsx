@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AnimatedSelect from '@/components/ui/animated-select'
 import DatePicker, { toDateString } from '@/components/ui/date-picker'
-import { NumberInput, actionPrimary } from '@/components/ui/form-bits'
+import { NumberInput, SaveButton, useSaveStatus } from '@/components/ui/form-bits'
 import { money, tripPurposes, type TripRow } from '@/lib/books-shared'
 
 const fmt = (v: string) => new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }).format(new Date(`${v}T00:00:00Z`))
@@ -18,7 +18,7 @@ export default function TripManager({ rows, year, rate, lastOdometer, fuelCost, 
   const [miles, setMiles] = useState('')
   const [customer, setCustomer] = useState('')
   const [notes, setNotes] = useState('')
-  const [loading, setLoading] = useState(false)
+  const save = useSaveStatus()
   const [error, setError] = useState('')
 
   const auto = start && end && Number(end) > Number(start) ? Math.round((Number(end) - Number(start)) * 10) / 10 : null
@@ -26,13 +26,13 @@ export default function TripManager({ rows, year, rate, lastOdometer, fuelCost, 
 
   async function submit(event: React.FormEvent) {
     event.preventDefault()
-    setError(''); setLoading(true)
+    setError(''); save.start()
     const res = await fetch('/api/admin/trips', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ date, purpose, startOdometer: start, endOdometer: end, miles: auto ?? miles, customerName: customer, notes }),
-    })
-    setLoading(false)
-    if (!res.ok) { setError((await res.json().catch(() => null))?.error ?? 'Could not save.'); return }
+    }).catch(() => null)
+    if (!res || !res.ok) { save.fail(); setError((await res?.json().catch(() => null))?.error ?? 'Could not save. Check your connection and try again.'); return }
+    save.succeed()
     setStart(end || start); setEnd(''); setMiles(''); setCustomer(''); setNotes('')
     router.refresh()
   }
@@ -64,7 +64,7 @@ export default function TripManager({ rows, year, rate, lastOdometer, fuelCost, 
           <label className="col-span-2 text-sm font-medium">Notes<input className="field-input mt-2" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Optional" /></label>
         </div>
         {error && <p className="rounded-xl bg-red-50 p-3 text-sm text-red-700" role="alert">{error}</p>}
-        <button className={actionPrimary} disabled={loading}>{loading ? 'Saving…' : 'Save trip'}</button>
+        <SaveButton status={save.status} idle="Save trip" saving="Saving…" done="Saved" />
       </form>
 
       {rows.length === 0 && <p className="rounded-2xl border border-border bg-white p-8 text-center text-sm text-ink-muted">No trips logged yet.</p>}

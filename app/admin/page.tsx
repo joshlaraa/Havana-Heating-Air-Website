@@ -17,7 +17,7 @@ function Card({ label, value, sub }: { label: string; value: string; sub?: strin
   )
 }
 
-const quick = 'flex h-14 items-center justify-center rounded-2xl bg-white text-[15px] font-medium shadow-sm ring-1 ring-border transition active:scale-[0.98]'
+const quick = 'flex h-14 items-center justify-center rounded-[14px] bg-brand-red text-[15px] font-medium text-white shadow-sm transition hover:bg-brand-red/90 active:scale-[0.98] active:opacity-80'
 
 export default async function AdminHome() {
   await requireAdmin()

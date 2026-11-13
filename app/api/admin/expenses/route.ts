@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   let receiptPath: string | null = null
   const file = form.get('receipt')
   if (file instanceof File && file.size > 0) {
-    if (!file.type.startsWith('image/') || file.size > 4_000_000) return NextResponse.json({ error: 'Receipt must be an image under 4 MB.' }, { status: 400 })
+    if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 4_000_000) return NextResponse.json({ error: 'Receipt must be a JPEG, PNG or WebP image under 4 MB.' }, { status: 400 })
     await db.storage.createBucket(RECEIPT_BUCKET, { public: false }).catch(() => null)
     receiptPath = `${date.slice(0, 4)}/${crypto.randomUUID()}.jpg`
     const { error } = await db.storage.from(RECEIPT_BUCKET).upload(receiptPath, await file.arrayBuffer(), { contentType: file.type })

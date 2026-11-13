@@ -5,7 +5,7 @@ import Link from 'next/link'
 import type { DocType, InvoiceLineItem } from '@/lib/invoice-types'
 import AnimatedSelect from '@/components/ui/animated-select'
 import DatePicker, { toDateString } from '@/components/ui/date-picker'
-import { MoneyInput, actionPrimary, actionSecondary, formatPhone, sanitizeMoney } from '@/components/ui/form-bits'
+import { MoneyInput, SaveButton, actionSecondary, formatPhone, sanitizeMoney, useSaveStatus } from '@/components/ui/form-bits'
 
 type ServiceOption = { id: string; label: string; price: number }
 type Props = { services: readonly ServiceOption[]; type?: DocType }
@@ -50,7 +50,7 @@ export default function InvoiceForm({ services, type = 'invoice' }: Props) {
   const [pdfUrl, setPdfUrl] = useState('')
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const save = useSaveStatus()
   const [invalid, setInvalid] = useState<string[]>([])
   const fieldClass = (name: string) => `field-input mt-2 ${invalid.includes(name) ? '!border-red-300 !bg-red-50/70 focus:!ring-red-100' : ''}`
   const clearInvalid = (name: string) => setInvalid((current) => current.filter((n) => n !== name))
@@ -70,23 +70,23 @@ export default function InvoiceForm({ services, type = 'invoice' }: Props) {
     if (customerEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) missing.push('customerEmail')
     setInvalid(missing)
     if (missing.length) { setError('Please complete the highlighted customer information.'); return }
-    setLoading(true)
+    save.start()
     const payload = {
       type, customerName, customerEmail, customerPhone,
       customerAddress, items, discount: Number(form.get('discount') || 0),
       tax: Number(form.get('tax') || 0), invoiceDate: form.get('invoiceDate'), dueDate: form.get('dueDate'),
       paymentStatus: isEstimate ? 'draft' : form.get('paymentStatus'), paymentMethod: isEstimate ? 'other' : form.get('paymentMethod'), notes: form.get('notes'),
     }
-    const response = await fetch('/api/admin/invoices', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-    if (!response.ok) {
-      setError((await response.json().catch(() => null))?.error ?? 'Unable to generate invoice.')
-      setLoading(false)
+    const response = await fetch('/api/admin/invoices', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).catch(() => null)
+    if (!response || !response.ok) {
+      setError((await response?.json().catch(() => null))?.error ?? 'Unable to generate invoice. Check your connection and try again.')
+      save.fail()
       return
     }
     const blob = await response.blob()
     const url = URL.createObjectURL(blob)
     setPdfUrl(url); setInvoiceNumber(response.headers.get('X-Invoice-Number') ?? ''); setDocumentId(response.headers.get('X-Document-Id') ?? ''); setMessage(isEstimate ? 'Estimate created.' : 'Invoice generated successfully.')
-    setLoading(false)
+    save.succeed()
   }
   function emailClient() {
     if (!customerEmail || !invoiceNumber) return
@@ -139,7 +139,7 @@ export default function InvoiceForm({ services, type = 'invoice' }: Props) {
       {error && <p className="rounded-xl bg-red-50 p-4 text-sm text-red-700" role="alert">{error}</p>}
       {message && <p className="rounded-xl bg-green-50 p-4 text-sm text-green-700" role="status">{message} {invoiceNumber}</p>}
       <div className="sticky bottom-0 z-20 -mx-4 space-y-2 border-t border-border/70 bg-white/80 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 backdrop-blur-xl sm:static sm:mx-0 sm:flex sm:flex-wrap sm:gap-3 sm:space-y-0 sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none">
-        <button className={actionPrimary} disabled={loading}>{loading ? 'Creating…' : isEstimate ? 'Create estimate' : 'Create invoice'}</button>
+        <SaveButton status={save.status} idle={isEstimate ? 'Create estimate' : 'Create invoice'} saving="Creating…" done={isEstimate ? 'Estimate created' : 'Invoice created'} />
         {pdfUrl && (
           <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
             {documentId && <Link className={actionSecondary} href="/admin/documents">View all</Link>}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const formatPhone = (raw: string) => {
   const d = raw.replace(/\D/g, '').slice(0, 10)
@@ -61,5 +61,44 @@ export function NumberInput({ value, onChange, name, placeholder = '0', classNam
       />
       {suffix && <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm text-ink-faint">{suffix}</span>}
     </div>
+  )
+}
+
+export type SaveStatus = 'idle' | 'saving' | 'done'
+
+/** idle -> saving (spinner) -> done (green check for ~2s) -> idle */
+export function useSaveStatus() {
+  const [status, setStatus] = useState<SaveStatus>('idle')
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current) }, [])
+  return {
+    status,
+    start: () => { if (timer.current) clearTimeout(timer.current); setStatus('saving') },
+    fail: () => setStatus('idle'),
+    succeed: () => { setStatus('done'); timer.current = setTimeout(() => setStatus('idle'), 2200) },
+  }
+}
+
+export function SaveButton({ status, idle, saving, done, className = actionPrimary }: { status: SaveStatus; idle: string; saving: string; done: string; className?: string }) {
+  return (
+    <button
+      type="submit"
+      disabled={status !== 'idle'}
+      aria-live="polite"
+      className={`${className} gap-2 ${status === 'done' ? '!bg-green-600 !opacity-100' : ''} ${status === 'saving' ? '!opacity-90' : ''}`}
+    >
+      {status === 'saving' && (
+        <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" strokeOpacity="0.3" strokeWidth="3" />
+          <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+        </svg>
+      )}
+      {status === 'done' && (
+        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12.5l4.5 4.5L19 7.5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )}
+      {status === 'idle' ? idle : status === 'saving' ? saving : done}
+    </button>
   )
 }
